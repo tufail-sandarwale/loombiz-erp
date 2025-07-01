@@ -1,0 +1,108 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto p-6">
+              <div class="flex justify-between w-full">
+                <!-- Left side: Radio buttons -->
+                  <!-- <mat-radio-group aria-labelledby="" class="" [(ngModel)]="selectedOption">
+                    <mat-radio-button class="" *ngFor="let type of contactType" [value]="type" (change)="onOptionChange()">
+                        {{ type }}
+                    </mat-radio-button>
+                </mat-radio-group> -->
+                <mat-radio-group [(ngModel)]="selectedOption" (change)="onOptionChange()">
+                    <mat-radio-button value="customer">Customer</mat-radio-button>
+                    <mat-radio-button value="supplier">Supplier</mat-radio-button>
+                    <mat-radio-button value="transport">Transport</mat-radio-button>
+                  </mat-radio-group>
+                                   
+                <!-- Right side: Buttons and search field -->
+                <div class="flex items-center"> <!-- Flex container for right side -->
+                    <button mat-raised-button color="primary" class="mx-1">
+                        <mat-icon svgIcon="feather:file-plus"></mat-icon> Import
+                    </button>
+                    <button mat-raised-button color="primary" class="mx-1">
+                        <mat-icon svgIcon="filter_alt"></mat-icon> Filter
+                    </button>
+                    <mat-form-field class="fuse-mat-dense mt-2" color="bg-primary" >
+                       <mat-icon svgIcon="heroicons_solid:arrow-down-on-square-stack"></mat-icon>
+                        <mat-select  [(ngModel)]="selectedFormat" (selectionChange)="onFormatSelected($event)">
+                        <mat-option [value]="null" >Select</mat-option>
+                        <mat-option value="csv">CSV</mat-option>
+                        <mat-option value="pdf" disabled>PDF</mat-option>
+                        <!-- Add more formats as needed -->
+                      </mat-select>
+                    </mat-form-field>
+                     <mat-form-field class="fuse-mat-dense mx-1 mt-2" >
+                        <input matInput (keyup)="applyFilter($event)" placeholder="Search list" #input>
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                      <!-- Create contact button -->
+                <button class="float-right mx-1" mat-raised-button color="primary" (click)="add()">
+                    <mat-icon svgIcon="heroicons_outline:plus-small"></mat-icon>{{'button-create-contact' | transloco}}
+                </button>
+                </div>
+        
+              
+            </div>
+            
+                 
+        <div class="rounded-2x">
+           
+            <table mat-table [dataSource]="dataSource" matSort  color="primary">
+                
+                <ng-container matColumnDef="id">
+                    <th class="bg-primary" mat-header-cell *matHeaderCellDef>SR.No</th>
+                    <td mat-cell *matCellDef="let element; let i = index;"> {{i+1}} </td>d>
+                  </ng-container>
+                <ng-container matColumnDef="firstName">
+                  <th class="bg-primary" mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
+                  <td mat-cell *matCellDef="let contact">{{ contact.firstName }}</td>
+                </ng-container>
+              
+                <ng-container matColumnDef="lastName">
+                  <th class="bg-primary" mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
+                  <td mat-cell *matCellDef="let contact" >{{ contact.lastName }}</td>
+                </ng-container>
+              
+                <ng-container matColumnDef="email">
+                  <th class="bg-primary" mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+                  <td mat-cell *matCellDef="let contact" >{{ contact.email }}</td>
+                </ng-container>
+              
+                <ng-container matColumnDef="mobileNo">
+                  <th class="bg-primary" mat-header-cell *matHeaderCellDef mat-sort-header>Mobile No</th>
+                  <td mat-cell *matCellDef="let contact"  >{{ contact.mobileNo }}</td>
+                </ng-container>
+              
+                <ng-container matColumnDef="actions">
+                  <th class="bg-primary" mat-header-cell *matHeaderCellDef>Actions</th>
+                  <td mat-cell *matCellDef="let contact">
+                    <button mat-icon-button color="primary" (click)="edit(contact)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="delete(contact)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+              
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                <tr class="mat-row" *matNoDataRow >
+                  <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                </tr>
+              </table>  
+             
+              
+            <div class="noRecords" style="text-align: center;" *ngIf="dataSource && dataSource.data.length==0">
+                No records found
+            </div>
+
+            <div *ngIf="loading" style="display: flex;justify-content: center;">
+                <mat-spinner class="avatar spinner" [diameter]="60"></mat-spinner>
+            </div>
+            <mat-paginator #paginator [pageSize]="pageSize" [length]="totalElements" [hidePageSize]="false"
+                [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons aria-label="Select page "
+                (page)="onPaging($event)">
+            </mat-paginator>
+        </div>
+    </div>
+</div>

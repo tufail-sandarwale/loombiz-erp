@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="dialogForm" (ngSubmit)="onSubmit()">
+    <div *ngFor="let field of data.fields" class="w-full px-2">
+      <mat-form-field class="fuse-mat-dense mx-1 w-full" *ngIf="field.type === 'input'">
+        <mat-label>{{ field.label }}</mat-label>
+        <input matInput [formControlName]="field.name" [placeholder]="field.placeholder">
+        <!-- Display error message when control is invalid and touched -->
+        <mat-error *ngIf="dialogForm.get(field.name)?.invalid && dialogForm.get(field.name)?.touched">
+          {{ field.label }} is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <mat-dialog-actions>
+      <button mat-raised-button color="accent" mat-dialog-close>Cancel</button>
+      <button mat-raised-button color="primary" type="submit" >Add</button>
+    </mat-dialog-actions>
+  </form>
+</mat-dialog-content>

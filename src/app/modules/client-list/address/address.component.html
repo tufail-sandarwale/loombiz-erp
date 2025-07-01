@@ -1,0 +1,23 @@
+<!-- address.component.html -->
+
+<mat-horizontal-stepper>
+  <mat-step *ngFor="let field of fields; let i = index">
+    <ng-template matStepLabel>{{ field.label }}</ng-template>
+    <form [formGroup]="formGroup">
+      <mat-form-field class="w-1/2">
+        <mat-label *ngIf="field.visible">{{ field.label }}:</mat-label>
+        <input matInput *ngIf="field.visible" [type]="field.type" [name]="field.name" [placeholder]="field.label"
+               [formControlName]="field.name">
+      </mat-form-field>
+      <div>
+        <button mat-button type="button" *ngIf="i < fields.length - 1" matStepperNext>Next</button>
+       
+        <button mat-button type="button" *ngIf="i === fields.length - 1" (click)="resetStepper()">Reset</button>
+        <!-- <button mat-button type="button" *ngIf="i === fields.length - 1" (click)="stepper.reset()">Reset</button> -->
+        <button mat-button type="button" *ngIf="i > 0" matStepperPrevious>Back</button>
+      </div>
+    </form>
+  </mat-step>
+    
+  </mat-horizontal-stepper>
+  

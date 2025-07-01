@@ -1,0 +1,11 @@
+@if (formElement && parentForm){
+<mat-form-field [formGroup]="parentForm" class="fuse-mat-dense w-full">
+    <mat-label>{{formElement.label}}</mat-label>
+    <input matInput [formControlName]="formElement.name"
+        [matAutocomplete]="autoFormField">
+    <mat-autocomplete autoActiveFirstOption #autoFormField="matAutocomplete" [displayWith]="displayFormElement" (optionSelected)="optionSelected($event)">
+        <mat-option *ngFor="let item of filteredList | async" [value]="item.key">{{item.value}}</mat-option>
+    </mat-autocomplete>
+    <mat-icon matSuffix>arrow_drop_down</mat-icon>
+</mat-form-field>
+}

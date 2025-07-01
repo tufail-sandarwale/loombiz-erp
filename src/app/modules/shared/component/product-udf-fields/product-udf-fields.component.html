@@ -1,0 +1,13 @@
+<div [formGroup]="parentForm" class="flex flex-wrap  w-full">
+    <div class="w-full sm:w-1/2 md:w-1/4 px-2" *ngFor="let udf of udfFields; let i = index">
+        @if (udf.fieldType==='TEXTBOX') {
+        <mat-form-field class="fuse-mat-dense w-full">
+            <mat-label>{{udf.name}}</mat-label>
+            <input matInput formControlName="{{udf.code}}" [required]="udf.mandatory">
+        </mat-form-field>
+        }
+        @if (udf.fieldType==='AUTO_COMPLETE') {
+        <app-rv-auto-complete [parentForm]="parentForm" [formElement]="udf.formElement" (udfSelected)="udfSelected(udf, $event)"></app-rv-auto-complete>
+        }
+    </div>
+</div>

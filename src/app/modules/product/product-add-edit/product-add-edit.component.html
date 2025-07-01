@@ -1,0 +1,77 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto p-6">
+        <div class="w-full flex justify-between items-center mb-2">
+            <mat-label class="table-title float-left">{{ 'lable.new-product' | transloco }}</mat-label>
+        </div>
+        <div class="h-98 rounded-2xl mt-2.5">
+            <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="flex flex-wrap mx-2" autocomplete="off">
+                <mat-accordion class="w-full ml-2" multi>
+                    <mat-expansion-panel hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                General Details
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="flex flex-wrap">
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-label>
+                                        {{ 'lable.item-code-barcode' | transloco }}
+                                        <mat-slide-toggle class="ml-5" formControlName="barcodeAutoGenerate"
+                                            color="primary"> Auto
+                                            generate
+                                        </mat-slide-toggle>
+                                    </mat-label>
+                                    <input matInput formControlName="barcode"
+                                        [readonly]="productForm.value.barcodeAutoGenerate">
+                                </mat-form-field>
+                            </div>
+                            <app-rv-auto-complete *ngIf="productTypeFormElement" class="w-full sm:w-1/2 md:w-1/4 px-2"
+                                [parentForm]="productForm.get('productType')"
+                                [formElement]="productTypeFormElement"></app-rv-auto-complete>
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-label>{{ 'lable.product-name' | transloco }}</mat-label>
+                                    <input matInput formControlName="name">
+                                </mat-form-field>
+                            </div>
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-label>{{ 'lable.print-name' | transloco }}</mat-label>
+                                    <input matInput formControlName="printName">
+                                </mat-form-field>
+                            </div>
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-label>{{ 'lable.hsn-code' | transloco }}</mat-label>
+                                    <input matInput formControlName="hsnCode">
+                                </mat-form-field>
+                            </div>
+                            <app-rv-auto-complete *ngIf="productCategoryFormElement"
+                                class="w-full sm:w-1/2 md:w-1/4 px-2" [parentForm]="productForm.get('productCategory')"
+                                [formElement]="productCategoryFormElement"></app-rv-auto-complete>
+
+                            <app-rv-auto-complete *ngIf="productUnitFormElement" class="w-full sm:w-1/2 md:w-1/4 px-2"
+                                [parentForm]="productForm.get('productUnit')"
+                                [formElement]="productUnitFormElement"></app-rv-auto-complete>
+
+                            <app-rv-chips *ngIf="productTagElement" class="w-full sm:w-1/2 md:w-1/4 px-2"
+                                [parentForm]="productForm.get('productTags')"
+                                [formElement]="productTagElement"></app-rv-chips>
+
+                        </div>
+                        <app-product-udf-fields [parentForm]="productForm"></app-product-udf-fields>
+                        <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                            <mat-slide-toggle class="ml-5" formControlName="hasExpiry" color="primary"> Has Expiry
+                            </mat-slide-toggle>
+                            <mat-slide-toggle class="ml-5" *ngIf="productForm.controls['hasExpiry'].value" formControlName="expiryProductSaleable" color="primary"> Is
+                                Expiry Product Saleable
+                            </mat-slide-toggle>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+                <button type="submit" mat-raised-button>Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

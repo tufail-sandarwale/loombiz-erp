@@ -1,0 +1,42 @@
+table {
+    thead {
+        tr {
+            color: white !important;
+        }
+    }
+}
+
+.mat-mdc-paginator {
+    display: flex !important;
+    justify-content: right !important;
+}
+
+.mat-sort-header-arrow {
+    color: #eeeeee !important;
+}
+
+.table-title{
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.mat-mdc-raised-button, .mat-mdc-outlined-button, .mat-mdc-unelevated-button {
+    padding: 0 10px !important;
+    border-radius: 15px !important;
+    min-height: 35px !important;
+}
+
+.alert-success{
+    color: white;
+    --mdc-snackbar-container-color: #128217 !important;
+}
+
+.alert-error {
+    color: white;
+    --mdc-snackbar-container-color: #FF005D !important;
+}
+.selectColumn{
+    color: rgb(57 119 220 / 93%);
+    font-weight: bold;
+    cursor: pointer;
+}

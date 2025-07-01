@@ -1,0 +1,54 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto p-6">
+        <div class="flex justify-between w-full">
+            <mat-label class="table-title float-left">{{ 'lable-add-role' | transloco }}</mat-label>
+        </div>
+
+        <div class="h-400 min-h-400 max-h-400 rounded-2xl mt-2.5">
+            <form [formGroup]="roleForm" (ngSubmit)="onSubmit()" class="flex flex-wrap -mx-2">
+                <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                    <mat-form-field class="fuse-mat-dense w-full">
+                        <mat-label>User Role Name</mat-label>
+                        <input matInput formControlName="name">
+                    </mat-form-field>
+                </div>
+
+                <mat-divider></mat-divider>
+                <mat-accordion class="w-full ml-2">
+                    <mat-expansion-panel hideToggle *ngFor="let permission of permissionsMap">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{permission.groupName}}
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                Select roles for {{permission.groupName}}
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <div class="permission-section">
+                            <div class="permission" *ngFor="let type of permission.types">
+                                <div class="grid grid-cols-5">
+                                    <!-- Type column -->
+                                    <mat-label>{{type.type}}</mat-label>
+                                    <!-- Other columns -->
+                                    <div *ngFor="let p of type.permissions">
+                                        <mat-slide-toggle [checked]="p.checked" color="primary"
+                                            [formControlName]="p.code">{{p.name}}</mat-slide-toggle>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+                <button class="ml-2" type="submit" mat-raised-button color="primary">
+                    <mat-icon color="primary" svgIcon="save"></mat-icon>
+                    <span *ngIf="!editMode"> {{'button-save' | transloco}}</span>
+                    <span *ngIf="editMode"> {{'button-update' | transloco}}</span>
+                   </button>
+                <button class="ml-2" type="button" mat-raised-button color="basic" (click)="cancel()">
+                    <mat-icon svgIcon="cancel"></mat-icon>
+                    {{'button-cancel' | transloco}}
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+<form [formGroup]="formGroup">
+    <div *ngFor="let controlName of getFormControls()">
+      <!-- Text Box -->
+      <div *ngIf="isTextBox(controlName)">
+        <label *ngIf="showLabel(controlName)">{{controlName}}</label>
+        <input type="text" [formControlName]="controlName">
+      </div>
+      <!-- Drop Down -->
+      <div *ngIf="isDropDown(controlName)">
+        <select [formControlName]="controlName">
+          <option *ngFor="let option of getOptions(controlName)">{{option}}</option>
+        </select>
+      </div>
+    </div>
+  </form>
