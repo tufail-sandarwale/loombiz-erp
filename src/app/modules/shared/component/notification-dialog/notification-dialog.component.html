@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+
+<mat-dialog-content>
+  <p>{{ message }}</p>
+
+  <!--  WhatsApp Image -->
+  <div *ngIf="selectedType === 'whatsapp'">
+    <img src="assets/images/whatsapp.png" alt="WhatsApp" width="100">
+  </div>
+
+  <!--  SMS Image -->
+  <div *ngIf="selectedType === 'sms'">
+    <img src="assets/images/sms.png" alt="SMS" width="100">
+  </div>
+
+  <!--  Email Image -->
+  <div *ngIf="selectedType === 'email'">
+    <img src="assets/images/email.png" alt="Email" width="100">
+  </div>
+
+
+    <form *ngIf="dialogForm" [formGroup]="dialogForm">
+    <div *ngFor="let field of data.fields">
+      <mat-form-field class="fuse-mat-dense w-full px-4">
+        <mat-label>{{ field.label }}</mat-label>
+
+        <!--  Input Field -->
+        <input *ngIf="field.type === 'input'" matInput formControlName="{{ field.name }}" [placeholder]="field.placeholder">
+
+        <!--  Dropdown Field -->
+        <mat-select *ngIf="field.type === 'select'"  formControlName="{{ field.name }}">
+          <mat-option *ngFor="let option of field.options" [value]="option.key">
+            {{ option.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button color="accent" (click)="onCancel()">Close</button>
+  <!-- <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="dialogForm.invalid">Submit</button> -->
+</mat-dialog-actions>

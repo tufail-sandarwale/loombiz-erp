@@ -1,0 +1,30 @@
+<mat-sidenav-container class="w-full">
+    <mat-sidenav opened mode="side">
+        <mat-nav-list>
+          
+           
+            <a mat-list-item [routerLink]="['/setting/udf-config/product-udf']" routerLinkActive="active-link">
+                <span class="flex">
+                    <span class="material-symbols-outlined">text_fields</span>
+                    <span class="ml-2">Product UDF</span>
+                </span>
+            </a>
+            <a mat-list-item [routerLink]="['/setting/udf-config/pricing-udf']">
+                <span class="flex">
+                    <span class="material-symbols-outlined">currency_rupee</span>
+                    <span class="ml-2">Pricing UDF</span>
+                </span>
+            </a>
+            <a mat-list-item [routerLink]="['/setting/udf-config/quantity-udf']">
+                <span class="flex">
+                    <span class="material-symbols-outlined">calculate</span>
+                    <span class="ml-2">Quantity UDF</span>
+                </span>
+            </a>
+            
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

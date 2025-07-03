@@ -11,6 +11,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
+import { BranchService } from 'app/core/services/branch.service';
 import { UserService } from 'app/core/user/user.service';
 
 @Component({
@@ -39,7 +40,8 @@ export class AuthSignInComponent implements OnInit {
         private _authService: AuthService,
         private _formBuilder: UntypedFormBuilder,
         private _router: Router,
-        private _userService: UserService
+        private _userService: UserService,
+        private brnachService: BranchService,
     ) {
     }
 
@@ -86,6 +88,11 @@ export class AuthSignInComponent implements OnInit {
                 this._authService.session().subscribe({
                     next: result => {
                         this._userService.user = result;
+                        this.brnachService.getBranch(result.branchIds[0]).subscribe({
+                            next: branch => {
+                                this._userService.userBranch = branch;
+                            }
+                        });
                         const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
                         this._router.navigateByUrl(redirectURL);
                     }, error: (error) => {
@@ -104,7 +111,7 @@ export class AuthSignInComponent implements OnInit {
                 this.signInNgForm.resetForm();
                 this.alert = {
                     type: 'error',
-                    message: 'Wrong email or password',
+                    message: error,
                 };
                 this.showAlert = true;
             }

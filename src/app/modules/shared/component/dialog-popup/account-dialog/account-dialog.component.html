@@ -1,0 +1,68 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="dialogForm" (ngSubmit)="onSubmit()">
+    <!-- Loop through fields dynamically -->
+    <div *ngFor="let field of data.fields" class="w-full px-2">
+      <!-- Input Field -->
+      <mat-form-field class="fuse-mat-dense mx-1 w-full" *ngIf="field.type === 'input'">
+        <mat-label>{{ field.label }}</mat-label>
+        <input 
+          matInput 
+          [formControlName]="field.name"
+          [placeholder]="field.placeholder"
+        />
+        <!-- Error Handling -->
+        <mat-error *ngIf="dialogForm.get(field.name)?.invalid && dialogForm.get(field.name)?.touched">
+          {{ field.label }} is required
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Select Dropdown Field -->
+      <mat-form-field class="fuse-mat-dense mx-1 w-full" *ngIf="field.type === 'select'">
+        <mat-label>{{ field.label }}</mat-label>
+        <mat-select [formControlName]="field.name">
+          <mat-option *ngFor="let option of field.options" [value]="option.key">
+            {{ option.value }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="dialogForm.get(field.name)?.invalid && dialogForm.get(field.name)?.touched">
+          {{ field.label }} is required
+        </mat-error>
+      </mat-form-field>
+<!-- Group Field (e.g., Opening Balance) -->
+<div *ngIf="field.type === 'group'" class="group-field w-full">
+  <!-- Display Group Label -->
+  <div class="opening-balance-label">
+    <strong>{{ field.label }}</strong>
+  </div>
+  
+  <!-- Inline Sub-fields Container -->
+  <div class="sub-field-container" style="display: flex; gap: 1rem; align-items: center;">
+    <!-- Loop through sub-fields (Debit and Credit) -->
+    <mat-form-field 
+      *ngFor="let subField of field.fields" 
+      class="fuse-mat-dense w-full" 
+      style="flex: 1;">
+      <mat-label>{{ subField.placeholder }}</mat-label>
+      <input 
+        matInput 
+        [formControlName]="subField.name"
+        [placeholder]="subField.placeholder"
+        [value]="subField.selected"
+      />
+    </mat-form-field>
+  </div>
+</div>
+
+    </div>
+
+    <!-- Dialog Actions -->
+    <mat-dialog-actions>
+      <button mat-raised-button color="accent" mat-dialog-close>Cancel</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="dialogForm.invalid">
+        {{ isEditMode ? 'Update' : 'Add' }}
+      </button>
+    </mat-dialog-actions>
+  </form>
+</mat-dialog-content>

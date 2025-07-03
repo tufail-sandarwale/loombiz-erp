@@ -1,0 +1,12 @@
+<div class="flex flex-col w-full p-5">
+    <h4 class="font-bold">Store Setup</h4>
+    <div class="table-container w-full mx-2">
+      <div class="table-header-action justify-end">
+        <button mat-raised-button color="primary" (click)="addStore()" style="float: right;">
+          {{'lable.add-new' | transloco}}
+        </button>
+      </div>
+      <app-client-side-table-view [tableData]="tableData" [tableColumns]="tableColumns" [tableCode]="'Administration-store'" class="w-full overflow-x-auto" style="display: block;"
+      [actions]="actions" (actionClickedEvent)="tableAction($event)"></app-client-side-table-view>
+    </div>
+  </div>

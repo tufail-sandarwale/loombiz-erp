@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { FuseDrawerComponent } from '@fuse/components/drawer';
 import { FuseConfig, FuseConfigService, Scheme, Theme, Themes } from '@fuse/services/config';
 import { UserService } from 'app/core/user/user.service';
-import { EmployeeService } from 'app/modules/employee/employee.service';
+import { EmployeeService } from 'app/modules/masters/employee/employee.service';
 
 import { Subject, takeUntil } from 'rxjs';
 

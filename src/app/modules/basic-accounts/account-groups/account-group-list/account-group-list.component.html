@@ -1,0 +1,92 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto p-6">
+        <div class="flex justify-between w-full">
+            <mat-label class="table-title float-left">{{ 'account-group-table-title' | transloco }}</mat-label>
+        </div>
+
+        <div class="h-400 min-h-400 max-h-400 rounded-2xl mt-2.5">
+            <div class="flex justify-between w-full">
+                <div class="w-full sm:w-1/2 md:w-1/4">
+                <mat-form-field class="fuse-mat-dense w-30">
+                    <mat-select name="export">
+                        @for (ex of exportTypes; track ex) {
+                        <mat-option [value]="ex.key" (click)="export(ex.key)">
+                            <mat-icon class="mr-[5px]" [svgIcon]="ex.icon"></mat-icon>
+                            <span>{{ex.value}}</span>
+                        </mat-option>
+                        }
+                    </mat-select>
+                    <mat-icon matPrefix svgIcon="mat_solid:file_download"></mat-icon>
+                </mat-form-field>
+                </div>
+                <div class="w-full sm:w-1/2 md:w-1/4">
+
+                    <mat-form-field class="fuse-mat-dense w-full">
+                        <mat-label>Filter</mat-label>
+                        <input matInput (keyup)="applyFilter($event)" placeholder="Search" #input>
+                    </mat-form-field>
+                </div>
+                <div class="w-full sm:w-1/2 md:w-1/4" style="align-content: center;">
+                    <button *ngIf="accountGroupPermissionService.canAdd" style="float: right;" class="float-right" mat-raised-button color="primary" (click)="openAddEditDialog()">
+                        <mat-icon svgIcon="heroicons_outline:plus-small"></mat-icon>{{'button-add-account-group' |
+                        transloco}}</button>
+                </div>
+            </div>
+            <table *ngIf="dataSource" mat-table [dataSource]="dataSource" matSort color="primary">
+                <ng-container matColumnDef="position">
+                    <th class="bg-primary" mat-header-cell *matHeaderCellDef>SR.No</th>
+                    <td mat-cell *matCellDef="let element; let i = index;"> {{(paginator.pageIndex * paginator.pageSize) + i + 1}} </td>
+                </ng-container>
+                <ng-container matColumnDef="groupName">
+                    <th class="bg-primary" mat-header-cell *matHeaderCellDef>Group Name</th>
+                    <td mat-cell *matCellDef="let element"> {{element.groupName}} </td>
+                </ng-container>
+                <ng-container matColumnDef="groupNature">
+                    <th class="bg-primary" mat-header-cell *matHeaderCellDef>Group Nature</th>
+                    <td mat-cell *matCellDef="let element"> {{element.groupNature}} </td>
+                </ng-container>
+                <ng-container matColumnDef="parentGroup">
+                    <th class="bg-primary" mat-header-cell *matHeaderCellDef>Parent Group</th>
+                    <td mat-cell *matCellDef="let element"> {{element.parentGroupName}} </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="createdOn">
+                    <th class="bg-primary" mat-header-cell *matHeaderCellDef>Created On</th>
+                    <td mat-cell *matCellDef="let element"> {{element.hsn}} </td>
+                </ng-container>
+                <ng-container matColumnDef="createdBy">
+                    <th class="bg-primary" mat-header-cell *matHeaderCellDef>Created By</th>
+                    <td mat-cell *matCellDef="let element"> {{element.createdBy}} </td>
+                </ng-container>
+              
+                <ng-container matColumnDef="actions">
+                    <th class="bg-primary" mat-header-cell *matHeaderCellDef>Actions</th>
+                    <td mat-cell *matCellDef="let element">
+                       <mat-icon *ngIf="element.name!='Power User' && accountGroupPermissionService.canEdit " class="cursor-pointer " color="primary"
+                            (click)="openAddEditDialog(element)" matTooltip="Edit">edit</mat-icon>
+                        <mat-icon *ngIf="element.name!='Power User' && accountGroupPermissionService.canDelete " class="cursor-pointer " color="warn"
+                            (click)="delete(element)" matTooltip="Delete">delete</mat-icon> 
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+
+                </tr>
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                </tr>
+            </table>
+            <div class="noRecords" style="text-align: center;" *ngIf="dataSource && dataSource.data.length==0">
+                No records found
+            </div>
+
+            <div *ngIf="loading" style="display: flex;justify-content: center;">
+                <mat-spinner class="avatar spinner" [diameter]="60"></mat-spinner>
+            </div>
+            <mat-paginator #paginator [pageSize]="pageSize" [length]="totalElements" [hidePageSize]="false"
+                [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons aria-label="Select page "
+                (page)="onPaging($event)">
+            </mat-paginator>
+        </div>
+    </div>
+</div>

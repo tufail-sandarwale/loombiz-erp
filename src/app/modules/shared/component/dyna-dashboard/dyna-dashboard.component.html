@@ -1,0 +1,40 @@
+<div class="flex w-full flex-col p-4">
+    <div class="flex justify-between w-full">
+        <mat-label class="text-xl font-semibold leading-8 tracking-tight">{{dashboard.title}}</mat-label>
+    </div>
+    <fuse-card class="flex p-4 pt-2 bg-gray-200 static w-[400px] items-center" #fuseCard>
+        <div class="flex flex-col justify-between w-[300px]">
+            <span class="text-lg font-bold">Date Range</span>
+            <input type="text" ngxDaterangepickerMd [(ngModel)]="selectedDateRange" [showCustomRangeLabel]="true"
+                [alwaysShowCalendars]="true" [ranges]="ranges" [linkedCalendars]="true" [isInvalidDate]="isInvalidDate"
+                [showClearButton]="true" placeholder="Select Date Range" />
+        </div>
+        <button mat-raised-button color="primary" (click)="applyDateRange()">Apply</button>
+
+    </fuse-card>
+    <mat-divider class="mt-1"></mat-divider>
+    <div class=" flex w-full flex-col gap-4 mt-2">
+        @for (group of dashboard.groupedWidgets; track $index) {
+        <div class="flex w-full gap-2">
+            @for (dw of group; track $index) {
+            <fuse-card [class]="getWidthClass(dw.numColumns)" class="flex flex-col p-4 pt-2" #fuseCard>
+                <div class="flex justify-between items-center mb-2">
+                    <div class="flex flex-col">
+                        <span class="text-lg font-bold">{{dw.widget.title}}</span>
+                        <span class="text-xs italic">{{startDate | date:'dd-MM-yyyy'}} - {{endDate | date:'dd-MM-yyyy'}}</span>
+                    </div>
+                    
+                    @if(dw.widget.widgetParameters && dw.widget.widgetParameters.length > 0) {
+                    <mat-icon class="cursor-pointer" (click)="openParamsDialog(dw)">settings</mat-icon>
+                    }
+                </div>
+                <app-custom-widget *ngIf="dw.widget.widgetType == 'CUSTOM' && dw.data" [dw]="dw"></app-custom-widget>
+                <app-dyna-chart *ngIf="dw.widget.widgetType == 'CHART' && dw.chartOptions"
+                    [updatedDate]="dw.updatedDate" [options]="dw.chartOptions"></app-dyna-chart>
+                <div>
+                </div>
+            </fuse-card>
+            }
+        </div>
+        }
+    </div>

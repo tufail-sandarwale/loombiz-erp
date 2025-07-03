@@ -11,7 +11,7 @@
           </button>
         </mat-chip-row>
       }
-      <input placeholder="New Tag..."
+      <input [placeholder]="formElement.placeholder?formElement.placeholder: 'New Tag...'"
              [matChipInputFor]="chipGrid"
              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
              [matChipInputAddOnBlur]="addOnBlur"

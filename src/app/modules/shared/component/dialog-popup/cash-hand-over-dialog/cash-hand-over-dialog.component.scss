@@ -1,0 +1,61 @@
+.register-container {
+  display: flex;
+  padding: 16px;
+  gap: 16px;
+  flex-wrap: wrap;
+
+  .left-panel, .center-panel, .right-panel {
+    background: #fff;
+    padding: 16px;
+    border-radius: 8px;
+  }
+
+  .left-panel {
+    flex: 1;
+    min-width: 250px;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      td {
+        padding: 4px 8px;
+         border: 1px solid #ccc;
+      }
+
+      .bold td {
+        font-weight: 600;
+      }
+    }
+  }
+
+  .center-panel {
+    flex: 1;
+    min-width: 300px;
+
+    table {
+      width: 100%;
+       border-collapse: collapse;
+        td {
+        padding: 4px 8px;
+         border: 1px solid #ccc;
+      }
+      input {
+        width: 80px;
+      }
+    }
+  }
+
+  .right-panel {
+    flex: 1;
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}

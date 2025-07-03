@@ -15,11 +15,12 @@ export class AlertsService {
   ) { }
 
   showAlert(message, success: boolean) {
-    this.snackBar.open(message, 'X', {
+    const content = `${success ? "Success:" : "Error:"} ${message}`;
+    this.snackBar.open(content, 'X', {
       horizontalPosition: 'right',
       verticalPosition: 'top',
       panelClass: success ? ["alert-success"] : ["alert-error"],
-      duration: 5000,
+      duration: 3000,
     });
   }
 

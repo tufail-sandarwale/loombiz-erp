@@ -7,3 +7,8 @@ export function panValidator(): ValidatorFn {
         return isValid ? null : { 'The Pan No. Is Not A Valid': { value: control.value } };
     };
   }
+
+  export function decimalValidator(control) {
+    const regex = /^\d+(\.\d{1,2})?$/;
+    return regex.test(control.value) ? null : { invalidDecimal: true };
+  }

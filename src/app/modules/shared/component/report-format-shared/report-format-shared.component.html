@@ -1,0 +1,33 @@
+<div class="flex flex-wrap gap-4">
+  <div
+    *ngFor="let item of templates"
+    class="w-48 text-center border p-2 rounded"
+  >
+    <!-- Radio button for the type of the image -->
+    <label class="block mb-2">
+   <input
+  type="radio"
+   [name]="templateGroup"
+  [value]="item.templateName"
+  [checked]="item.templateName === selectedTemplate"
+  (change)="onSelect(item.templateName)"
+/>
+      {{ item.label }} 
+    </label>
+
+    <!-- Image and label -->
+    <div class="text-center border p-2 cursor-pointer"
+     [class.border-blue-500]="item.templateName === selectedTemplate"
+      (click)="onSelect(item.templateName)">
+      <img
+        [src]="item.imageUrl"
+        [alt]="item.label"
+        class="w-full h-auto rounded"
+      />
+     
+    </div>
+  </div>
+</div>
+
+
+

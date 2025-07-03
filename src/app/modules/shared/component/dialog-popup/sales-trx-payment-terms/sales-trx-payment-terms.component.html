@@ -1,0 +1,44 @@
+<h2 class="bg-primary text-white p-2 text-xl font-semibold popup-header">
+  <span>Payment Terms</span>
+</h2>
+<div class="p-4 min-w-[400px]">
+
+  <form [formGroup]="paymentTermsForm" (ngSubmit)="onProcessToPrint()">
+    <div class="flex flex-col">
+      <!-- Payment Terms Selection -->
+      <mat-form-field appearance="fill" class="w-full fuse-mat-dense">
+        <mat-label>Payment Terms</mat-label>
+        <mat-select formControlName="paymentTerm">
+          <mat-option *ngFor="let term of paymentTerms" [value]="term.id">
+            {{ term.paymentTerm }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Due Date -->
+      <mat-form-field appearance="fill" class="w-full fuse-mat-dense">
+        <mat-label>Due Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="dueDate" readonly>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <!-- Reminder Radio Buttons -->
+      <div class="space-y-2">
+        <label class="block text-sm text-gray-600">Reminder</label>
+        <mat-radio-group formControlName="reminder" class="flex gap-4">
+          <mat-radio-button value="yes" class="text-gray-700">Yes</mat-radio-button>
+          <mat-radio-button value="no" class="text-gray-700">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-3 mt-8">
+      <button mat-button type="button" (click)="onCancel()" class="px-4 py-2 text-gray-700">
+        Cancel
+      </button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!paymentTermsForm.valid" class="px-4 py-2">
+        Proceed to Print
+      </button>
+    </div>
+  </form>
+</div>

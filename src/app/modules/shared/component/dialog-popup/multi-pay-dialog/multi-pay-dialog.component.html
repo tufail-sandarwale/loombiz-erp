@@ -1,0 +1,156 @@
+<div class="flex justify-between h-full">
+    <div id="saleDetails" class="w-2/3 h-full p-2 border-r border-gray-300 mb-4">
+        <div class="text-3xl bg-primary text-white">Sale Summary</div>
+        <div class="mt-2">Customer : {{data.billData.customerName?data.billData.customerName:'Walk in
+            Customer'}}</div>
+        <div class="mt-1 first-letter:w-full h-2/3 overflow-y-auto">
+            <table class="fuse-mat-dense rounded-2x" mat-table [dataSource]="billDetailsDataSource" color="primary">
+                <ng-container matColumnDef="position">
+                    <th mat-header-cell *matHeaderCellDef class="bg-gray-700"> SR.No </th>
+                    <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                </ng-container>
+
+                <!-- Cost Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef class="bg-gray-700"> Name</th>
+                    <td mat-cell *matCellDef="let element" class="p-1">
+                        {{element.name}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="qty">
+                    <th mat-header-cell *matHeaderCellDef class="bg-gray-700"> QTY </th>
+                    <td mat-cell *matCellDef="let element"> {{element.qty | rvDisplayPrice}} </td>
+                </ng-container>
+                <ng-container matColumnDef="amount">
+                    <th mat-header-cell *matHeaderCellDef class="bg-gray-700"> Amount </th>
+                    <td mat-cell *matCellDef="let element"> {{element.amount | rvDisplayPrice}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+            </table>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="text-lg w-full">
+            <div *ngIf="data.billData.discountTotal" class="flex justify-between">
+                <span>Total Discount:</span>
+                <span>{{data.billData.discountTotal | rvDisplayPrice}}</span>
+            </div>
+            <div *ngIf="data.billData.taxTotal" class="flex justify-between">
+                <span>Total Tax:</span>
+                <span>{{data.billData.taxTotal | rvDisplayPrice}}</span>
+            </div>
+            <div *ngIf="data.billData.roundOffPlusOrMinus" class="flex justify-between">
+                <span>Round Off:</span>
+                <span>{{data.billData.roundOffPlusOrMinus | rvDisplayPrice}}</span>
+            </div>
+            <div class="flex justify-between">
+                <span>Final Amount:</span>
+                <span>{{data.billData.finalPayableAmount | rvDisplayPrice}}</span>
+            </div>
+        </div>
+    </div>
+    <div id="multipayDetails" class="w-full h-full p-2">
+        <span class="text-3xl w-1/2 px-2 py-1 inline-flex">Pay:
+            {{data.billData.finalPayableAmount}}</span>
+        <mat-icon class="absolute right-1.5 text-[30px] -mt-1 cursor-pointer" color="warn"
+            mat-dialog-close>cancel</mat-icon>
+        <form [formGroup]="paymentForm" (ngSubmit)="submitPayment()" class="h-full max-h-fit">
+            <div formArrayName="payments" class="h-4/5 overflow-y-auto">
+                <div *ngFor="let paymentControl of payments.controls; let i = index" [formGroupName]="i"
+                    class="flex-col p-1 bg-[#80808057] rounded-md w-full flex items-center pb-2 mb-2">
+                    <div class="w-full flex items-center">
+                        <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                            <mat-form-field class="fuse-mat-dense w-full">
+                                <mat-label>Payment Method</mat-label>
+                                <mat-select formControlName="paymentMode">
+                                    <mat-option *ngFor="let paymentMode of paymentModes"
+                                        [value]="paymentMode.key">{{
+                                            paymentMode.value
+                                        }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                            <mat-form-field class="fuse-mat-dense w-full">
+                                <mat-label>Received Amount</mat-label>
+                                <input matInput formControlName="paymentAmount" type="text" required>
+                            </mat-form-field>
+                        </div>
+                        <div *ngIf="paymentControl.get('paymentMode').value!='cash'"
+                            class="w-full sm:w-1/2 md:w-1/4 px-2">
+                            <mat-form-field class="fuse-mat-dense w-full">
+                                <mat-label>Payment Account</mat-label>
+                                <mat-select formControlName="paymentAccount">
+                                    <mat-option *ngFor="let paymentAccount of paymentAccounts"
+                                        [value]="paymentAccount.key">{{ paymentAccount.value
+                                        }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <span matTooltip="Delete" class="material-symbols-outlined cursor-pointer text-red-500 mt-5"
+                            (click)="removePayment(i)">delete</span>
+                    </div>
+                    <div *ngIf="['upi','card','bank','cheque'].includes(paymentControl.get('paymentMode').value)"
+                        class="w-full flex items-center mt-3">
+                        <div *ngIf="paymentControl.get('paymentMode').value=='upi'"
+                            class="w-full sm:w-1/2 md:w-1/4 px-2">
+                            <mat-form-field class="fuse-mat-dense w-full">
+                                <mat-label>UPI ID</mat-label>
+                                <input matInput formControlName="upiId" type="text">
+                            </mat-form-field>
+                        </div>
+                        <div *ngIf="paymentControl.get('paymentMode').value=='card'"
+                            class="w-full sm:w-1/2 md:w-1/4 px-2">
+                            <mat-form-field class="fuse-mat-dense w-full">
+                                <mat-label>Card Holder Name</mat-label>
+                                <input matInput formControlName="cardHolderName" type="text">
+                            </mat-form-field>
+                        </div>
+                        <div *ngIf="paymentControl.get('paymentMode').value=='card'"
+                            class="w-full sm:w-1/2 md:w-1/4 px-2">
+                            <mat-form-field class="fuse-mat-dense w-full">
+                                <mat-label>Card Transaction Number</mat-label>
+                                <input matInput formControlName="cardTransactionNumber" type="text">
+                            </mat-form-field>
+                        </div>
+                        <div *ngIf="paymentControl.get('paymentMode').value=='bank'"
+                            class="w-full sm:w-1/2 md:w-1/4 px-2">
+                            <mat-form-field class="fuse-mat-dense w-full">
+                                <mat-label>Bank Account Number</mat-label>
+                                <input matInput formControlName="bankAccount" type="text">
+                            </mat-form-field>
+                        </div>
+                        <div *ngIf="paymentControl.get('paymentMode').value=='cheque'"
+                            class="w-full sm:w-1/2 md:w-1/4 px-2">
+                            <mat-form-field class="fuse-mat-dense w-full">
+                                <mat-label>Cheque Number</mat-label>
+                                <input matInput formControlName="chequeNumber" type="text">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                </div>
+                <span class="flex items-center text-primary cursor-pointer" (click)="addPayment()"><mat-icon
+                    class="text-primary">add</mat-icon> Add More Payment</span>
+            </div>
+            
+            <div class="text-lg absolute bottom-16 text-black font-bold">
+                <span>Final Amount: {{finalAmount | rvDisplayPrice}}</span>
+                <span class="ml-3">Added Amount: {{addedAmount | rvDisplayPrice}}</span>
+                <span class="ml-3">Remaining Amount: {{(finalAmount - addedAmount) | rvDisplayPrice}}</span>
+            </div>
+            
+            <span *ngIf="addedAmount>finalAmount" class="text-red-500 text-lg absolute bottom-12 font-bold">Note:
+                {{(addedAmount-finalAmount) | rvDisplayPrice}} will be given as change; otherwise, it will be treated as
+                credit for the customer.</span>
+            <span *ngIf="addedAmount<=finalAmount" class="text-red-500 text-lg absolute bottom-12 font-bold">Note: If the payment
+                is not made in full, the remaining balance will be treated as "Pay Later."</span>            
+                <div class="flex justify-center absolute bottom-1" style="width: 59%;">
+                    <button type="submit" mat-raised-button color="primary" class="w-full">
+                        Proceed To Pay
+                    </button>
+                </div>
+        </form>
+    </div>
+
+</div>

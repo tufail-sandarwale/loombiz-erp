@@ -17,13 +17,14 @@ import { SearchComponent } from 'app/layout/common/search/search.component';
 import { ShortcutsComponent } from 'app/layout/common/shortcuts/shortcuts.component';
 import { UserComponent } from 'app/layout/common/user/user.component';
 import { Subject, takeUntil } from 'rxjs';
+import { BreadcrumbComponent } from 'app/modules/shared/component/breadcrumb/breadcrumb.component';
 
 @Component({
     selector     : 'compact-layout',
     templateUrl  : './compact.component.html',
     encapsulation: ViewEncapsulation.None,
     standalone   : true,
-    imports      : [FuseLoadingBarComponent, MatButtonModule, MatIconModule, LanguagesComponent, FuseFullscreenComponent, SearchComponent, ShortcutsComponent, MessagesComponent, NotificationsComponent, UserComponent, NgIf, RouterOutlet, QuickChatComponent, FuseVerticalNavigationComponent],
+    imports      : [FuseLoadingBarComponent, MatButtonModule, MatIconModule, LanguagesComponent, FuseFullscreenComponent, SearchComponent, ShortcutsComponent, MessagesComponent, NotificationsComponent, UserComponent, NgIf, RouterOutlet, QuickChatComponent, FuseVerticalNavigationComponent, BreadcrumbComponent],
 })
 export class CompactLayoutComponent implements OnInit, OnDestroy
 {
@@ -65,6 +66,8 @@ export class CompactLayoutComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+
+         alert("compact layout");
         // Subscribe to navigation data
         this._navigationService.navigation$
             .pipe(takeUntil(this._unsubscribeAll))

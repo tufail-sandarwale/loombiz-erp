@@ -1,0 +1,105 @@
+<div class="inline-table w-full">
+    <table *ngIf="dataSource" multiTemplateDataRows class="rounded-2x mat-elevation-z8" mat-table
+        [dataSource]="dataSource" matSort (matSortChange)="sortChange($event)" color="primary">
+        <ng-container *ngFor="let colKey of columnKeys; let colIndex = index;" [ngSwitch]="colKey">
+            <ng-container *ngSwitchCase="'position'" matColumnDef="position">
+                <th class="bg-primary" mat-header-cell *matHeaderCellDef>{{ 'lable.SR-No' | transloco }}</th>
+                <td mat-cell *matCellDef="let element; let i = colIndex;">
+                    {{element['position']}}
+                </td>
+            </ng-container>
+            <ng-container *ngSwitchCase="'actions'" matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef class="bg-primary"> Actions </th>
+                <td mat-cell *matCellDef="let element">
+                    <ng-container *ngFor="let button of actions">
+                        @if(button.key=='inlineEditSaveWithExpandTags'){
+                        <button *ngIf="!element.inlineEditClick" mat-icon-button (click)="editClick($event, element)"
+                            [matTooltip]="'Edit'" [color]="button.color">
+                            <mat-icon svgIcon="mat_solid:edit"></mat-icon>
+                        </button>
+                        <button *ngIf="element.inlineEditClick" mat-icon-button (click)="editSave(element)"
+                            [matTooltip]="'Save'" [color]="button.color">
+                            <mat-icon svgIcon="mat_solid:check"></mat-icon>
+                        </button>
+                        }@else if(button.key=='inlineEditSave'){
+                        <button *ngIf="!element.inlineEditClick" mat-icon-button (click)="editClick($event, element)"
+                            [matTooltip]="'Edit'" [color]="button.color">
+                            <mat-icon svgIcon="mat_solid:edit"></mat-icon>
+                        </button>
+                        <button *ngIf="element.inlineEditClick" mat-icon-button (click)="editSave(element)"
+                            [matTooltip]="'Save'" [color]="button.color">
+                            <mat-icon svgIcon="mat_solid:check"></mat-icon>
+                        </button>
+                        <button *ngIf="element.inlineEditClick" mat-icon-button
+                            (click)="element.inlineEditClick = !element.inlineEditClick;" [matTooltip]="'Cancel'"
+                            [color]="'basic'">
+                            <mat-icon svgIcon="mat_solid:cancel"></mat-icon>
+                        </button>
+                        }@else {
+                        <button mat-icon-button (click)="buttonAction(button.key, element)" [matTooltip]="button.value"
+                            [color]="button.color">
+                            <mat-icon [svgIcon]="button.icon"></mat-icon>
+                        </button>
+                        }
+
+                    </ng-container>
+                </td>
+            </ng-container>
+            <ng-container *ngSwitchDefault matColumnDef="{{colKey}}">
+                <th mat-sort-header mat-header-cell *matHeaderCellDef class="bg-primary"> {{columnNames[colIndex]}}
+                </th>
+                <td mat-cell *matCellDef="let element">
+                    @if (getColumnType(colKey)=='date') {
+                        @if (isEditable(colKey)){
+                        <span *ngIf="!element.inlineEditClick" class="mat-column-{{colKey}}-text"> {{element[colKey] |
+                            date: "dd-MM-yyyy"}}</span>
+                        <mat-form-field *ngIf="element.inlineEditClick" class="fuse-mat-dense w-full">
+                            <input matInput [(ngModel)]="element[colKey]" [value]="element[colKey]"
+                                [matDatepicker]="picker">
+                            <mat-hint>MM/DD/YYYY</mat-hint>
+                            <mat-datepicker-toggle matIconSuffix [for]="picker">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        } 
+                        @else{
+                        <span class="mat-column-{{colKey}}-text"> {{element[colKey] | date: "dd-MM-yyyy"}}</span>
+                        }
+                    } 
+                    @else if (getColumnType(colKey)=='boolean') {
+                        @if (isEditable(colKey)){
+                        <span *ngIf="!element.inlineEditClick" class="mat-column-{{colKey}}-text">
+                            <mat-icon *ngIf="element[colKey]==true" color="primary">check_circle</mat-icon>
+                            <mat-icon *ngIf="element[colKey]==false" color="warn">cancel</mat-icon>
+                        </span>
+                        <mat-slide-toggle *ngIf="element.inlineEditClick" class="fuse-mat-dense w-full"
+                            [checked]="element[colKey] == true ? true : false" (change)="element[colKey]=!element[colKey]"
+                            color="primary"></mat-slide-toggle>
+                        }
+                    } 
+                    @else {
+                        @if (isEditable(colKey)){
+                        <span *ngIf="!element.inlineEditClick" class="mat-column-{{colKey}}-text">
+                            {{element[colKey]}}</span>
+                        <mat-form-field *ngIf="element.inlineEditClick" class="fuse-mat-dense w-full">
+                            <input (input)="element[colKey]=$event.target.value" [value]="element[colKey]" matInput>
+                        </mat-form-field>
+                        } @else{
+                            <span *ngIf="(element[colKey] | isNumber)">
+                                <span class="mat-column-{{colKey}}-text block w-full text-right">{{element[colKey] | rvDisplayPrice}}</span>
+                            </span>
+                            <span *ngIf="!(element[colKey] | isNumber)">
+                                <span class="mat-column-{{colKey}}-text">{{element[colKey]}}</span>
+                            </span>
+                        }
+                    }
+                </td>
+            </ng-container>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnKeys"></tr>
+        <tr mat-row *matRowDef="let element; columns: columnKeys;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons
+        aria-label="Select page of periodic elements">
+    </mat-paginator>
+</div>

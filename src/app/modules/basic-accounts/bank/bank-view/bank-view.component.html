@@ -1,0 +1,112 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto p-6">
+        <div class="w-full flex justify-between items-center mb-2">
+            <mat-label class="table-title float-left">{{
+                "label-bank.view-bank" | transloco
+            }}</mat-label>
+        </div>
+        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+            <mat-tab label="Bank Details">
+                <div class="flex flex-row">
+                    <div class="basis-1/2">
+                       
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-bank.account-holder-name" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentBank.accountHolderName }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-bank.account-no" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentBank.accountNo }}
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-bank.ifsc-code" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentBank.ifscCode }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3  font-semibold ">
+                                {{ "label-bank.swift-code" | transloco }} :
+                            </div>
+                            <div class="basis-1/2 ">
+                                {{ currentBank.swiftCode }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-bank.account-group" | transloco }} :
+                            </div>
+                            <div class="basis-1/2 ">
+                                {{ currentBank.accountGroup }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-bank.bank-name" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentBank.bankName }}
+                            </div>
+                        </div>
+                       
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-bank.branch-name" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentBank.branchName}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="basis-1/2">
+                       
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-bank.address" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentBank.address}}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-bank.country" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentBank.country }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-bank.state" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentBank.state }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-bank.zip-code" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentBank.postalCode}}
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+            </mat-tab>
+         </mat-tab-group>
+    </div>
+</div>

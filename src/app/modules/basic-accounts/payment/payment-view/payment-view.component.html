@@ -1,0 +1,291 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto p-6">
+        <div class="w-full flex justify-between items-center mb-2">
+            <mat-label class="table-title float-left">{{
+                "label-payment.view-payment" | transloco
+            }}</mat-label>
+        </div>
+        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+            <mat-tab label="Payment Details">
+                <div class="flex flex-row">
+                    <div class="basis-1/2">
+                       
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.first-name" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.firstName }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.last-name" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.lastName }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.email" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.email }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.date-of-birth" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.dateOfBirth | date: 'dd-MM-yyyy'}}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.supplier-category" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.supplierCategory }}
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="basis-1/2">
+                        <div class="flex">
+                            <div class="basis-1/3  font-semibold ">
+                                {{ "label-supplier.mobile" | transloco }} :
+                            </div>
+                            <div class="basis-1/2 ">
+                                {{ currentSupplier.mobileNo }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.whats-app" | transloco }} :
+                            </div>
+                            <div class="basis-1/2 ">
+                                {{ currentSupplier.whatsappNo }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.remarks" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.remarks }}
+                            </div>
+                        </div>
+                       
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.anniversary-date" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.dateOfAnniversary | date: 'dd-MM-yyyy'}}
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+            </mat-tab>
+            <mat-tab label="Accounts Details">
+                <div class="flex flex-row">
+                    <div class="basis-1/2">
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.opening-balance-dr" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.accountsDetails.openingBalanceDr }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.opening-balance-cr" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.accountsDetails.openingBalanceCr }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.payment-terms" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.accountsDetails.paymentTerms }}
+                            </div>
+                        </div>
+                     
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.credit-limit" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.accountsDetails.creditLimit }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.selling-margin" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.accountsDetails.sellingMargin }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3  font-semibold ">
+                                {{ "label-supplier.selling-discount" | transloco }} :
+                            </div>
+                            <div class="basis-1/2 ">
+                                {{ currentSupplier.accountsDetails.sellingDiscount }}
+                            </div>
+                        </div>
+                   
+                    </div>
+                  
+                </div>
+            </mat-tab>
+            <mat-tab label="GSTIN  Details">
+                <div class="flex flex-row">
+                    <div class="basis-1/2">
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.gst-type" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.gstinDetails.gstType }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.gstin" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.gstinDetails.gstin}}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.company-name" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.gstinDetails.companyName }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.contact-person-name" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.gstinDetails.contactPersonName }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.place-of-supply" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.gstinDetails.placeOfSupply }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.pan-no" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.gstinDetails.panNo}}
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="basis-1/2">
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.tan-no" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.gstinDetails.tanNo}}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.country" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.gstinDetails.country }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3  font-semibold ">
+                                {{ "label-supplier.state" | transloco }} :
+                            </div>
+                            <div class="basis-1/2 ">
+                                {{ currentSupplier.gstinDetails.state }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.city" | transloco }}
+                            </div>
+                            <div class="basis-1/2 ">
+                                {{ currentSupplier.gstinDetails.city }}
+                            </div>
+                        </div>
+                                               
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="Bank Details">
+                <div class="flex flex-row">
+                    <div class="basis-1/2">
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.bank-name" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.bankDetails.bankName }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.branch-name" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.bankDetails.branchName }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.ifsc-code" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.bankDetails.ifscCode }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.account-no" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.bankDetails.accountNo }}
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="basis-1/3 font-semibold">
+                                {{ "label-supplier.account-holder-name" | transloco }} :
+                            </div>
+                            <div class="basis-1/2">
+                                {{ currentSupplier.bankDetails.accountHolderName }}
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

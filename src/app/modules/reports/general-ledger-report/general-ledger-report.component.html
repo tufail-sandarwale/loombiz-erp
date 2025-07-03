@@ -1,0 +1,138 @@
+
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto p-6">
+        <div class="flex justify-between w-full">
+            <mat-label class="table-title float-left">{{ 'general-ledger-report-title' | transloco }}</mat-label>
+        </div>
+
+        <div class="h-400 min-h-400 max-h-400 rounded-2xl mt-2.5">
+           <form [formGroup]="ledgerForm"> 
+            <!-- <div class="flex justify-between w-full"> -->
+                <div class="flex flex-wrap">
+                    <div class="w-full  md:w-1/4 px-2">
+                        <!-- <mat-label>{{ 'label-general-ledger-report.date-range' | transloco }}</mat-label>
+                        <fuse-card class="flex p-4 pt-2  static w-[250px] items-center" #fuseCard>
+                            <div class="flex flex-col justify-between w-[200px]">
+                         
+                                <input type="text" ngxDaterangepickerMd formControlName="selectedDateRange" [showCustomRangeLabel]="true"
+                                    [alwaysShowCalendars]="true" [ranges]="ranges" [linkedCalendars]="true" [isInvalidDate]="isInvalidDate"
+                                    [showClearButton]="true" (change)="fetchLedgerData()" placeholder="Select Date Range" />
+                            </div>
+                           
+                    
+                        </fuse-card> -->
+                        <app-date-picker 
+                        [(selectedDateRange)]="dateRange" 
+                        [placeholder]="'Date Range'" 
+                        (dateRangeSelected)="onDateSelected($event)">
+                        </app-date-picker>
+                    </div>
+                    <div class="w-full  md:w-1/4 px-2">
+                         <label  style="font-weight: 500;font-size: 14.5;"> {{ 'label-general-ledger-report.select-account' | transloco }}</label> 
+                       
+                     <app-rv-auto-complete
+  [parentForm]="ledgerForm"
+  [formElement]="accountElement"
+></app-rv-auto-complete>
+
+
+
+                    </div>
+                  
+
+                    <div class="w-full  md:w-1/4 px-2">
+                        
+                         <label  style="font-weight: 500;font-size: 14.5;"> {{ 'label-general-ledger-report.account-group' | transloco }}</label> 
+                          <app-rv-auto-complete
+  [parentForm]="ledgerForm"
+  [formElement]="accountGroupElement"
+></app-rv-auto-complete>
+                    </div>
+                  
+                </div> 
+                 <!-- <div class="w-full sm:w-1/2 md:w-1/4">
+                <mat-form-field class="fuse-mat-dense w-30">
+                    <mat-select name="export">
+                        @for (ex of exportTypes; track ex) {
+                        <mat-option [value]="ex.key" (click)="export(ex.key)">
+                            <mat-icon class="mr-[5px]" [svgIcon]="ex.icon"></mat-icon>
+                            <span>{{ex.value}}</span>
+                        </mat-option>
+                        }
+                    </mat-select>
+                    <mat-icon matPrefix svgIcon="mat_solid:file_download"></mat-icon>
+                </mat-form-field>
+                </div>  -->
+                <!-- <div class="w-full sm:w-1/2 md:w-1/4">
+
+                    <mat-form-field class="fuse-mat-dense w-full">
+                        <mat-label>Filter</mat-label>
+                        <input matInput (keyup)="applyFilter($event)" placeholder="Search" #input>
+                    </mat-form-field>
+                </div> -->
+                <!-- <div class="w-full sm:w-1/2 md:w-1/4" style="align-content: center;">
+                    <button *ngIf="accountGroupPermissionService.canAdd" style="float: right;" class="float-right" mat-raised-button color="primary" (click)="openAddEditDialog()">
+                        <mat-icon svgIcon="heroicons_outline:plus-small"></mat-icon>{{'button-add-account-group' |
+                        transloco}}</button>
+                </div> -->
+            <!-- </div> -->
+            <table *ngIf="dataSource" mat-table [dataSource]="dataSource" matSort color="primary">
+                <ng-container matColumnDef="date">
+                    <th class="bg-primary" mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+                    <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                </ng-container>
+                <ng-container matColumnDef="particulars">
+                    <th class="bg-primary" mat-header-cell *matHeaderCellDef mat-sort-header>Particulars</th>
+                    <td mat-cell *matCellDef="let element"> {{element.particulars}} </td>
+                </ng-container>
+                <ng-container matColumnDef="voucherType">
+                    <th class="bg-primary" mat-header-cell *matHeaderCellDef mat-sort-header>Voucher Type</th>
+                    <td mat-cell *matCellDef="let element"> {{element.voucherType}} </td>
+                </ng-container>
+                <ng-container matColumnDef="voucherNo">
+                    <th class="bg-primary" mat-header-cell *matHeaderCellDef mat-sort-header>Voucher No</th>
+                    <td mat-cell *matCellDef="let element"> {{element.voucherNo}} </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="description">
+                    <th class="bg-primary" mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+                    <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                </ng-container>
+                <ng-container matColumnDef="debit">
+                    <th class="bg-primary" mat-header-cell *matHeaderCellDef mat-sort-header>Debit</th>
+                    <td mat-cell *matCellDef="let element"> {{element.debit | rvDisplayPrice}} </td>
+                </ng-container>
+              
+                <ng-container matColumnDef="credit">
+                    <th class="bg-primary" mat-header-cell *matHeaderCellDef mat-sort-header>Credit	</th>
+                    <td mat-cell *matCellDef="let element"> {{element.credit | rvDisplayPrice }} </td>
+                </ng-container>
+                <ng-container matColumnDef="closing">
+                    <th class="bg-primary" mat-header-cell *matHeaderCellDef mat-sort-header>Closing</th>
+                    <td mat-cell *matCellDef="let element"> {{element.closing | rvDisplayPrice}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <ng-container *ngIf="dataSource.data.length > 0">
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+ </tr>
+</ng-container>
+               
+<tr *ngIf="dataSource.data.length === 0 && !loading">
+    <td class="text-center" colspan="{{ displayedColumns.length }}">No data available. Please select a filter.</td>
+</tr>
+            </table>
+            <div class="noRecords" style="text-align: center;" *ngIf="dataSource && dataSource.data.length==0">
+                No records found
+            </div>
+
+            <div *ngIf="loading" style="display: flex;justify-content: center;">
+                <mat-spinner class="avatar spinner" [diameter]="60"></mat-spinner>
+            </div>
+            <mat-paginator #paginator [pageSize]="pageSize" [length]="totalElements" [hidePageSize]="false"
+                [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons aria-label="Select page "
+                (page)="onPaging($event)">
+            </mat-paginator>
+            </form>
+        </div>
+    </div>
+</div>

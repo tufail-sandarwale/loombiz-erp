@@ -1,0 +1,23 @@
+<div class="confirmation-dialog">
+  <h2 mat-dialog-title>Confirm Transaction</h2>
+  
+  <mat-dialog-content>
+    <div class="amount-section">
+      <h3>Final Amount</h3>
+      <p class="final-amount">{{ data.finalAmount | currency }}</p>
+    </div>
+
+    <div class="payment-methods">
+      <h3>Payment Details</h3>
+      <div class="payment-item" *ngFor="let payment of data.paymentMethods">
+        <span class="payment-type">{{ payment.type }}</span>
+        <span class="payment-amount">{{ payment.amount | currency }}</span>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">No</button>
+    <button mat-raised-button color="primary" (click)="onConfirm()">Yes</button>
+  </mat-dialog-actions>
+</div>

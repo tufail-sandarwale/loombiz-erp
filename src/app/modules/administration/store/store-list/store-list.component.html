@@ -1,0 +1,68 @@
+
+  
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto p-6">
+        
+      <div class="table-container mx-2">
+        <h4 class="font-bold">Store Setup</h4>
+        <div class="table-header-action" style="float: right;">
+        <button mat-raised-button color="primary" (click)="addStore()" style="float: right;">
+            {{'button-store-details' | transloco}}
+           
+          </button>
+        </div>
+        <table mat-table [dataSource]="storeColumnsDataSource" class="mat-elevation-z8" matSort>
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <th class="bg-primary" mat-header-cell *matHeaderCellDef>SR.No</th>
+            <td mat-cell *matCellDef="let element; let i = index;"> {{i+1}} </td>d>
+        </ng-container>
+      
+          <!-- Category Name Column -->
+          <ng-container matColumnDef="name">
+            <th class="bg-primary" mat-header-cell *matHeaderCellDef>  Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+          
+          <ng-container matColumnDef="description">
+            <th class="bg-primary" mat-header-cell *matHeaderCellDef> Description  </th>
+            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+          </ng-container>
+          <ng-container matColumnDef="businessType">
+            <th class="bg-primary" mat-header-cell *matHeaderCellDef> Business Type  </th>
+            <td mat-cell *matCellDef="let element"> {{element.businessType}} </td>
+          </ng-container>
+          <ng-container matColumnDef="gstNumber">
+            <th class="bg-primary" mat-header-cell *matHeaderCellDef> GST Number   </th>
+            <td mat-cell *matCellDef="let element"> {{element.gstNumber}} </td>
+          </ng-container>
+          <ng-container matColumnDef="contact">
+            <th class="bg-primary" mat-header-cell *matHeaderCellDef> Contact  </th>
+            <td mat-cell *matCellDef="let element"> {{element.contact}} </td>
+          </ng-container>
+          <ng-container matColumnDef="email">
+            <th class="bg-primary" mat-header-cell *matHeaderCellDef> Email </th>
+            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th class="bg-primary" mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let element">
+                <mat-icon class="cursor-pointer " color="primary"
+                    (click)="editStore(element)" matTooltip="Edit">edit</mat-icon>
+                <mat-icon  class="cursor-pointer " color="warn"
+                    (click)="delete(element)" matTooltip="Delete">delete</mat-icon>
+            </td>
+        </ng-container>
+          <!-- Header and Row Declarations -->
+          <tr mat-header-row *matHeaderRowDef="storeColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: storeColumns;"></tr>
+        </table>
+        <mat-paginator #storePaginator
+        [pageSize]="5"
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons>
+    </mat-paginator>
+      </div>
+    </div>
+    </div>
+      

@@ -1,0 +1,91 @@
+<div class="bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+    <div class="max-w-6xl mx-auto">
+        <div class="dialog-header relative">
+  <button mat-icon-button class="absolute right-2 top-2" (click)="onClose()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+        <div class="bg-white rounded-2xl shadow-lg p-2 mb-4">
+            <h1 class="text-3xl font-bold text-gray-800 text-center mb-4">Cash Payment</h1>
+            <div class="grid grid-cols-3 gap-4 text-center">
+                <div class="bg-red-50 border border-red-200 rounded-xl p-4">
+                    <p class="text-sm text-red-600 font-medium mb-1">Bill Amount</p>
+                    <p class="text-2xl font-bold text-red-700">₹{{ billAmount | rvDisplayPrice }}</p>
+                </div>
+                <div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                    <p class="text-sm text-blue-600 font-medium mb-1">Amount Tendered</p>
+                    <input matInput type="number" [(ngModel)]="totalTendered" (ngModelChange)="totalTenderedChanged()" class="w-full p-2 border border-gray-200 rounded">
+                    <!-- <p class="text-2xl font-bold text-blue-700">₹{{ totalTendered | rvDisplayPrice }}</p> -->
+                </div>
+                <div class="border rounded-xl p-4"
+                    [ngClass]="isPaymentSufficient ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200'">
+                    <p class="text-sm font-medium mb-1"
+                        [ngClass]="isPaymentSufficient ? 'text-green-600' : 'text-gray-600'">
+                        {{ isPaymentSufficient ? 'Change' : 'Remaining' }}
+                    </p>
+                    <p class="text-2xl font-bold" [ngClass]="isPaymentSufficient ? 'text-green-700' : 'text-gray-700'">
+                        ₹{{ (isPaymentSufficient ? change : billAmount - totalTendered) | rvDisplayPrice }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Denomination Grid -->
+        <div class="bg-white rounded-2xl shadow-lg p-2 mb-4">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Denominations</h2>
+            <div class="flex gap-4 overflow-x-auto">
+                <div *ngFor="let denom of denominations" [ngClass]="denom.bgColor"
+                    class="border-2 rounded-xl hover:shadow-md">
+                    <div class="text-center mb-1">
+                        <mat-icon *ngIf="denom.type === 'note'" [ngClass]="denom.color" class="w-8 h-8 mx-auto mb-2"
+                            svgIcon="heroicons_outline:banknotes"></mat-icon>
+                        <mat-icon *ngIf="denom.type === 'coin'" [ngClass]="denom.color" class="w-8 h-8 mx-auto mb-2"
+                            svgIcon="heroicons_outline:currency-rupee"></mat-icon>
+                        <p class="font-bold text-lg" [ngClass]="denom.color">{{ denom.label }}</p>
+                        <p class="text-xs text-gray-500 capitalize">{{ denom.type }}</p>
+                    </div>
+                    <div class="flex items-center justify-between gap-1">
+                        <button (click)="updateDenomination(denom.value, false)"
+                            [disabled]="!denominationCounts[denom.value]"
+                            class="w-6 h-6 rounded-full bg-red-100 hover:bg-red-200 disabled:bg-gray-100 text-red-600 disabled:text-gray-400 ">
+                            -
+                        </button>
+                        <div
+                            class="bg-white rounded-lg px-2 py-2 min-w-[2rem] text-center font-semibold text-gray-800 border">
+                            {{ denominationCounts[denom.value] || 0 }}
+                        </div>
+                        <button (click)="updateDenomination(denom.value, true)"
+                            class="w-6 h-6 rounded-full bg-green-100 hover:bg-green-200 text-green-600">
+                            +
+                        </button>
+                    </div>
+                    <div *ngIf="denominationCounts[denom.value] > 0"
+                        class="mt-3 pt-3 border-t border-gray-200 text-center text-sm text-gray-600">
+                        Totl: <span class="font-semibold">₹{{ denom.value * denominationCounts[denom.value]}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="bg-white rounded-2xl shadow-lg p-6">
+            <div class="flex flex-col sm:flex-row gap-4">
+                <button (click)="handleCompletePayment()" [disabled]="!isPaymentSufficient" [ngClass]="{
+                'bg-green-600 hover:bg-green-700 shadow-lg hover:shadow-xl': isPaymentSufficient,
+                'bg-gray-300 cursor-not-allowed': !isPaymentSufficient
+              }" class="flex-1 py-4 px-6 rounded-xl font-semibold text-white flex items-center justify-center gap-2">
+                    {{ isPaymentSufficient ? 'Complete Payment' : 'Insufficient Amount' }}
+                </button>
+                <button (click)="handleClear()"
+                    class="flex-1 sm:flex-initial bg-gray-600 hover:bg-gray-700 text-white font-semibold py-4 px-6 rounded-xl">
+                    Clear
+                </button>
+                <button (click)="handleReset()"
+                    class="flex-1 sm:flex-initial bg-gray-600 hover:bg-gray-700 text-white font-semibold py-4 px-6 rounded-xl">
+                    Reset
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>

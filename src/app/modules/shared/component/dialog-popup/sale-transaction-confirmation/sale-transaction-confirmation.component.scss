@@ -1,0 +1,61 @@
+.confirmation-dialog {
+  padding: 16px;
+  min-width: 300px;
+
+  h2 {
+    margin: 0 0 16px;
+    color: #333;
+  }
+
+  .amount-section {
+    margin-bottom: 24px;
+    text-align: center;
+
+    h3 {
+      margin: 0;
+      font-size: 16px;
+      color: #666;
+    }
+
+    .final-amount {
+      font-size: 24px;
+      font-weight: bold;
+      color: #2196F3;
+      margin: 8px 0;
+    }
+  }
+
+  .payment-methods {
+    h3 {
+      margin: 0 0 12px;
+      font-size: 16px;
+      color: #666;
+    }
+
+    .payment-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .payment-type {
+        color: #333;
+      }
+
+      .payment-amount {
+        font-weight: 500;
+        color: #333;
+      }
+    }
+  }
+
+  mat-dialog-actions {
+    margin-top: 24px;
+    padding: 8px 0;
+    gap: 8px;
+  }
+}

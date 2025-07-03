@@ -1,0 +1,296 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto p-6">
+        <div class="w-full flex justify-between items-center mb-2">
+            <mat-label class="table-title float-left" *ngIf="!editMode">{{ 'label-create-store' | transloco
+                }}</mat-label>
+            <mat-label class="table-title float-left" *ngIf="editMode">{{ 'label-edit-store' | transloco
+                }}</mat-label>
+        </div>
+        <div class="h-98 rounded-2xl mt-2.5">
+            <form [formGroup]="storeForm" (ngSubmit)="onSubmit()" class="flex flex-wrap -mx-2" autocomplete="off">
+                <mat-accordion class="w-full" multi>
+                    <mat-expansion-panel [expanded]="true">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Basic Details
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="flex flex-wrap">
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-icon matPrefix svgIcon="heroicons_outline:user-circle"
+                                        class="icon-size-5"></mat-icon>
+                                    <mat-label>Name</mat-label>
+                                    <input matInput formControlName="name">
+                                </mat-form-field>
+                            </div>
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <!-- <mat-icon matPrefix svgIcon="heroicons_outline:user-circle" class="icon-size-5"></mat-icon> -->
+                                    <mat-label> Description</mat-label>
+                                    <input matInput formControlName="description">
+                                </mat-form-field>
+                            </div>
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <!-- <mat-icon matPrefix svgIcon="heroicons_outline:user-circle" class="icon-size-5"></mat-icon> -->
+                                    <mat-label>Business Type</mat-label>
+                                    <input matInput formControlName="businessType">
+                                </mat-form-field>
+                            </div>
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <!-- <mat-icon matPrefix svgIcon="heroicons_outline:user-circle" class="icon-size-5"></mat-icon> -->
+                                    <mat-label>GST Number</mat-label>
+                                    <input matInput formControlName="gstNumber">
+                                </mat-form-field>
+                            </div>
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-icon matPrefix svgIcon="heroicons_outline:user-circle"
+                                        class="icon-size-5"></mat-icon>
+                                    <mat-label>Contact </mat-label>
+                                    <input matInput formControlName="contact">
+                                </mat-form-field>
+                            </div>
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-label>Owner No</mat-label>
+                                    <input matInput formControlName="ownerNo">
+                                </mat-form-field>
+                            </div>
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-label>Support Email</mat-label>
+                                    <input matInput formControlName="supportEmail">
+                                </mat-form-field>
+                            </div>
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-label>Email</mat-label>
+                                    <input matInput formControlName="email">
+                                </mat-form-field>
+                            </div>
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-label>Mobile No</mat-label>
+                                    <input matInput formControlName="mobileNo">
+                                </mat-form-field>
+                            </div>
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-label>Customer Care No</mat-label>
+                                    <input matInput formControlName="customerCareNo">
+                                </mat-form-field>
+                            </div>
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                            <app-rv-auto-complete *ngIf="firmTypeFormElement" class="w-full sm:w-1/2 md:w-1/4 px-2"
+                                [parentForm]="storeForm" [formElement]="firmTypeFormElement"
+                                [fixedValue]="true"></app-rv-auto-complete>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel [expanded]="false">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Communication Details
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="flex flex-wrap">
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-label>Address</mat-label>
+                                    <input matInput formControlName="address">
+                                </mat-form-field>
+                            </div>
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-label>Pin Code</mat-label>
+                                    <input matInput formControlName="zipcode">
+                                </mat-form-field>
+                            </div>
+                            <!-- <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                    <mat-form-field class="fuse-mat-dense w-full">
+                                        <mat-label>Country</mat-label>
+                                        <mat-select formControlName="country">
+                                        <mat-option *ngFor="let country of countries" [value]="country.code">{{ country.name }}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                            </div>
+                                <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                  <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-label>State </mat-label>
+                                    <mat-select formControlName="state">
+                                      <mat-option *ngFor="let state of states" [value]="state.code">{{ state.name }}</mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                                </div>
+                                <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                    <mat-form-field class="fuse-mat-dense w-full">
+                                        <mat-label>City</mat-label>
+                                            <mat-select formControlName="city">
+                                                <mat-option *ngFor="let district of districts" [value]="district.code">{{ district.name }}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                </div> -->
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-label>Web Site</mat-label>
+                                    <input matInput formControlName="webSite">
+                                </mat-form-field>
+                            </div>
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-label>Latitude</mat-label>
+                                    <input matInput formControlName="latitude">
+                                </mat-form-field>
+                            </div>
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-label>Longitude</mat-label>
+                                    <input matInput formControlName="longitude">
+                                </mat-form-field>
+                            </div>
+                            <div formArrayName="addresses">
+                                <div *ngFor="let address of addressesArray.controls; let i=index" [formGroupName]="i">
+                                    <div class="flex flex-wrap">
+                                        <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                            <mat-form-field class="fuse-mat-dense w-full">
+                                                <mat-label>Address 1</mat-label>
+                                                <input matInput formControlName="address1">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                            <mat-form-field class="fuse-mat-dense w-full">
+                                                <mat-label>Address 2</mat-label>
+                                                <input matInput formControlName="address2">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                            <mat-form-field class="fuse-mat-dense w-full">
+                                                <mat-label>Country</mat-label>
+                                                <mat-select formControlName="country">
+                                                    <mat-option *ngFor="let country of countries"
+                                                        [value]="country.code">{{ country.name }}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                            <mat-form-field class="fuse-mat-dense w-full">
+                                                <mat-label>State </mat-label>
+                                                <mat-select formControlName="state">
+                                                    <mat-option *ngFor="let state of states" [value]="state.code">{{
+                                                        state.name }}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                            <mat-form-field class="fuse-mat-dense w-full">
+                                                <mat-label>City</mat-label>
+                                                <mat-select formControlName="city">
+                                                    <mat-option *ngFor="let district of districts"
+                                                        [value]="district.code">{{ district.name }}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                            <mat-form-field class="fuse-mat-dense w-full">
+                                                <mat-label>Zipcode</mat-label>
+                                                <input matInput formControlName="zipcode">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel [expanded]="false">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Bank Details
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="flex flex-wrap">
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-label>Bank Name</mat-label>
+                                    <input matInput formControlName="bankName">
+                                </mat-form-field>
+                            </div>
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-label>Bank IFSC</mat-label>
+                                    <input matInput formControlName="bankIFSC">
+                                </mat-form-field>
+                            </div>
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-label>UPI</mat-label>
+                                    <input matInput formControlName="upi">
+                                </mat-form-field>
+                            </div>
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-label>Branch Name</mat-label>
+                                    <input matInput formControlName="branchName">
+                                </mat-form-field>
+                            </div>
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-label>Account Holder Name</mat-label>
+                                    <input matInput formControlName="accountHolderName">
+                                </mat-form-field>
+                            </div>
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-label>Bank Account No</mat-label>
+                                    <input matInput formControlName="bankAccountNo">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Modules
+                            </mat-panel-title>
+                            <mat-panel-description>Select modules for this store</mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <mat-accordion displayMode="default" [multi]="true" [hideToggle]="false">
+                            <mat-expansion-panel class="border-2 border-gray-400" hideToggle *ngFor="let module of modulesJson">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        {{module.name}}
+                                        <mat-checkbox class="ml-2" color="primary" (click)="onToggleChange($event, 'module', module)" [checked]="module.checked"></mat-checkbox>
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        Select Sub Menu for {{module.name}}
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <div class="permission-section">
+                                    <div class="grid grid-cols-5">
+                                        <div *ngFor="let subMenu of module.subMenu">
+                                            <mat-slide-toggle (change)="onToggleChange(null,'subMenu', subMenu)" [checked]="subMenu.checked"
+                                                color="primary">{{subMenu.name}}</mat-slide-toggle>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </mat-expansion-panel>
+                </mat-accordion>
+                <div class="w-full mt-5"></div>
+                <button type="submit" mat-raised-button color="primary">
+                    <mat-icon color="primary" svgIcon="save"></mat-icon>
+                    <span *ngIf="!editMode"> {{'button-save' | transloco}}</span>
+                    <span *ngIf="editMode"> {{'button-update' | transloco}}</span>
+                </button>
+                <button type="button" mat-raised-button color="basic" (click)="cancel()" class="ml-2">
+                    <mat-icon svgIcon="cancel"></mat-icon>
+                    {{'button-cancel' | transloco}}
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+

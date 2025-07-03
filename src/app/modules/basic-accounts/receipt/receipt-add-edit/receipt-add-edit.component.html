@@ -1,0 +1,273 @@
+<div class="flex flex-col flex-auto min-w-0">
+  <div class="flex-auto p-6">
+    <div class="w-full flex justify-between items-center mb-2">
+      <mat-label class="table-title float-left" *ngIf="!editMode">{{ 'label-receipt.new-receipt' | transloco
+        }}</mat-label>
+      <mat-label class="table-title float-left" *ngIf="editMode">{{ 'label-receipt.edit-receipt' | transloco
+        }}</mat-label>
+    </div>
+    <div class="h-98 rounded-2xl mt-2.5">
+      <form [formGroup]="receiptForm" (ngSubmit)="onSubmit()" class="flex flex-wrap mt-2" autocomplete="off">
+        <mat-accordion class="w-full" multi>
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Receipt Details
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="flex flex-wrap">
+              <!-- <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-label>{{'label-receipt.receipt-No' | transloco}}</mat-label>
+                                    <input matInput formControlName="receiptNo" placeholder="receipt No" readonly />
+                                </mat-form-field>
+                            </div> -->
+              <div class="w-full sm:w-1/2 md:w-1/4 px-2 py-5">
+                <mat-label> </mat-label>
+                <mat-card>
+                  <mat-radio-group formControlName="paymentMode" class="fuse-mat-dense w-full"
+                    (change)="onPaymentOptionChange($event)">
+                    <mat-radio-button value="cash">Cash </mat-radio-button>
+                    <mat-radio-button value="bank">Bank</mat-radio-button>
+                  </mat-radio-group>
+
+                </mat-card>
+                <mat-error
+                  *ngIf="receiptForm.get('paymentMode').hasError('required') && receiptForm.get('paymentMode').touched">
+                  Payment Mode is required
+                </mat-error>
+              </div>
+              <!-- Conditionally show these radio buttons when 'Bank' is selected -->
+              <div class="w-full sm:w-1/2 md:w-1/4 px-2 py-5" *ngIf="receiptForm.get('paymentMode').value === 'bank'">
+                <mat-card>
+                  <mat-radio-group formControlName="bankType" class="fuse-mat-dense w-full"
+                    (change)="onBankOptionChange($event)">
+                    <div class="radio-box">
+                      <mat-radio-button value="online" class="radio-item">online</mat-radio-button>
+                      <mat-radio-button value="cheque" class="radio-item">Cheque</mat-radio-button>
+                    </div>
+                  </mat-radio-group>
+                  <div *ngIf="receiptForm.get('bankType').invalid && receiptForm.get('bankType').touched">
+                    <span *ngIf="receiptForm.get('bankType').errors?.required">Bank option is required.</span>
+                  </div>
+                </mat-card>
+              </div>
+              <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                <mat-form-field class="fuse-mat-dense w-full">
+                  <mat-label>{{'label-receipt.select-type' | transloco}}</mat-label>
+                  <mat-select formControlName="accountGroup">
+                    <mat-option *ngFor="let option of accountGroupOptions" [value]="option.key">
+                      {{ option.value }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="receiptForm.get('accountGroup').hasError('required') && receiptForm.get('accountGroup').touched">
+                    Account Group is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                <mat-form-field class="fuse-mat-dense w-full">
+                  <mat-label>{{'label-receipt.select-party-name' | transloco}}</mat-label>
+                  <mat-select formControlName="accountsDetails" (selectionChange)="onSelectionChange()">
+                    <mat-option *ngFor="let option of accountList" [value]="option.key">
+                      {{ option.value }}
+                    </mat-option>
+                  </mat-select>
+                  <!-- <mat-error *ngIf="receiptForm.get('partyName').hasError('required') && receiptForm.get('partyName').touched">
+                                        Party Name is required
+                                        </mat-error> -->
+
+                </mat-form-field>
+              </div>
+              <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                <mat-form-field class="fuse-mat-dense w-full">
+                  <mat-icon matPrefix svgIcon="heroicons_outline:clock" class="icon-size-5"></mat-icon>
+                  <mat-label>{{ "label-receipt.receipt-date" | transloco }}</mat-label>
+                  <input matInput formControlName="receiptDate" placeholder="Receipt Date" readonly />
+
+                </mat-form-field>
+              </div>
+              <div class="w-full sm:w-1/2 md:w-1/4 px-2" *ngIf="receiptForm.get('bankType').value === 'online'">
+                <mat-form-field class="fuse-mat-dense w-full">
+                  <mat-icon matPrefix svgIcon="heroicons_outline:clock" class="icon-size-5"></mat-icon>
+                  <mat-label>{{ "label-receipt.transaction-date" | transloco }}</mat-label>
+                  <input matInput formControlName="transactionDate" placeholder="Transaction Date" readonly />
+                </mat-form-field>
+              </div>
+              <div class="w-full sm:w-1/2 md:w-1/4 px-2" *ngIf="receiptForm.get('bankType').value === 'online'">
+                <mat-form-field class="fuse-mat-dense w-full">
+                  <mat-label>{{'label-receipt.transaction-No' | transloco}}</mat-label>
+                  <input matInput formControlName="transactionNo" placeholder="Transaction No" />
+                  <mat-error
+                    *ngIf="receiptForm.get('transactionNo').hasError('required') && receiptForm.get('transactionNo').touched">
+                    Transaction No is required
+                  </mat-error>
+
+                </mat-form-field>
+
+              </div>
+
+              <div class="w-full sm:w-1/2 md:w-1/4 px-2" *ngIf="receiptForm.get('bankType').value === 'cheque'">
+                <mat-form-field class="fuse-mat-dense w-full">
+                  <mat-label>{{'label-receipt.cheque-date' | transloco}}</mat-label>
+                  <input matInput formControlName="chequeDate" placeholder="Cheque Date" readonly />
+                </mat-form-field>
+              </div>
+              <div class="w-full sm:w-1/2 md:w-1/4 px-2" *ngIf="receiptForm.get('bankType').value === 'cheque'">
+                <mat-form-field class="fuse-mat-dense w-full">
+                  <mat-label>{{'label-receipt.cheque-no' | transloco}}</mat-label>
+                  <input matInput formControlName="chequeNo" placeholder="Cheque No" />
+                  <mat-error
+                    *ngIf="receiptForm.get('chequeNo').hasError('required') && receiptForm.get('chequeNo').touched">
+                    Cheque No is required
+                  </mat-error>
+
+                </mat-form-field>
+              </div>
+              <div class="w-full sm:w-1/2 md:w-1/2 px-2 py-5">
+                <mat-label> </mat-label>
+                <mat-card>
+                  <mat-radio-group formControlName="paymentType" class="fuse-mat-dense w-full"
+                    (change)="onSelectionChange()">
+                    <mat-radio-button value="on_account">On Account </mat-radio-button>
+                    <mat-radio-button value="advance_payment">Advance Payment</mat-radio-button>
+                    <mat-radio-button value="against_voucher">Against Voucher </mat-radio-button>
+                  </mat-radio-group>
+
+                </mat-card>
+                <mat-error
+                  *ngIf="receiptForm.get('paymentType').hasError('required') && receiptForm.get('paymentType').touched">
+                  Payment type is required
+                </mat-error>
+              </div>
+              <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                <mat-form-field class="fuse-mat-dense w-full">
+                  <mat-label>{{'label-receipt.ammount' | transloco}}</mat-label>
+                  <input matInput formControlName="amount" placeholder="Amount" />
+                  <mat-error
+                    *ngIf="receiptForm.get('amount').hasError('required') && receiptForm.get('amount').touched">
+                    Amount is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                <mat-form-field class="fuse-mat-dense w-full">
+                  <mat-label>{{'label-receipt.description' | transloco}}</mat-label>
+                  <input matInput formControlName="description" placeholder="Description" />
+                </mat-form-field>
+              </div>
+              <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                <mat-form-field class="fuse-mat-dense w-full">
+                  <mat-label>{{'label-receipt.receipt-status' | transloco}}</mat-label>
+                  <mat-select formControlName="receiptStatus">
+                    <mat-option *ngFor="let status of receiptStatuses" [value]="status">{{ status | titlecase }}</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="receiptForm.get('receiptStatus').hasError('required')">
+                    Payment Status is required.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-expansion-panel>
+          
+            <mat-expansion-panel [expanded]="true" *ngIf="receiptForm.get('paymentType')?.value === 'against_voucher'" >
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Invoice Details
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="flex flex-col w-full">
+                <div formArrayName="againstVoucher">
+                  <no-container *ngFor="let row of voucherRows.controls; let i = index" 
+                    [formGroupName]="i" class="w-full flex items-center gap-1 flex-nowrap overflow-auto">
+                    
+                    <!-- Invoice No -->
+                    <no-container class="w-1/6">
+                      <mat-form-field class="fuse-mat-dense w-full">
+                        <mat-label>Invoice No</mat-label>
+                        <mat-select formControlName="billNo" (selectionChange)="onInvoiceChange(i)">
+                          <mat-option *ngFor="let bill of getAvailableBills(i)" [value]="bill">
+                            {{ bill }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </no-container>
+              
+                    <!-- Taxable Amount -->
+                    <no-container class="w-1/10 px-1">
+                      <mat-form-field class="fuse-mat-dense w-full">
+                        <mat-label>Taxable Amount</mat-label>
+                        <input matInput type="number" formControlName="taxableAmount" readonly />
+                      </mat-form-field>
+                    </no-container>
+              
+                    <!-- Net Amount -->
+                    <no-container class="w-1/8">
+                      <mat-form-field class="fuse-mat-dense w-full">
+                        <mat-label>Net Amount</mat-label>
+                        <input matInput type="number" formControlName="netAmount" readonly />
+                      </mat-form-field>
+                    </no-container>
+              
+                    <!-- Paid Amount -->
+                    <no-container class="w-1/8 px-1">
+                      <mat-form-field class="fuse-mat-dense w-full">
+                        <mat-label>Paid Amount</mat-label>
+                        <input matInput type="number" formControlName="paidAmount" readonly />
+                      </mat-form-field>
+                    </no-container>
+              
+                    <!-- Pending Amount -->
+                    <no-container class="w-1/8">
+                      <mat-form-field class="fuse-mat-dense w-full">
+                        <mat-label>Pending Amount</mat-label>
+                        <input matInput type="number" formControlName="pendingAmount" readonly />
+                      </mat-form-field>
+                    </no-container>
+              
+                    <!-- Kasar Amount -->
+                    <no-container class="w-1/8 px-1">
+                      <mat-form-field class="fuse-mat-dense w-full">
+                        <mat-label>Kasar Amount</mat-label>
+                        <input matInput type="number" formControlName="kasarAmount" />
+                      </mat-form-field>
+                    </no-container>
+              
+                    <!-- Payment Amount -->
+                    <no-container class="w-1/8">
+                      <mat-form-field class="fuse-mat-dense w-full">
+                        <mat-label>Payment Amount</mat-label>
+                        <input matInput type="number" formControlName="payableAmount"
+                          [readOnly]="row.get('kasarAmount')?.value > 0" (blur)="updateTotalPayableAmount()" />
+                        <mat-error *ngIf="row.get('payableAmount')?.hasError('required') && row.get('payableAmount')?.touched">
+                          Payment Amount is required.
+                        </mat-error>
+                      </mat-form-field>
+                    </no-container>
+              
+                    <!-- Delete Button -->
+                    <div class="w-1/8 flex justify-center">
+                      <button mat-raised-button   type="button" (click)="deleteRow(i)" style="color:#dc2626 !important">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                  </no-container>
+                </div>
+              
+                <!-- Add Button Below the Row -->
+                <div class="action-buttons flex justify-start mt-2">
+                  <button mat-raised-button  style="background-color: rgb(4, 14, 130); color:#fff !important "   type="button" (click)="addRow()">
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        <button class="mt-10 mx-2" type="submit" mat-raised-button>Save</button>
+        <button class="mt-10" type="button" (click)="close()" mat-raised-button>Cancel</button>
+
+      </form>
+    </div>
+  </div>
+</div>

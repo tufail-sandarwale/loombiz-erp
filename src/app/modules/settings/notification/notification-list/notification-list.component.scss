@@ -1,0 +1,9 @@
+.icon-hover {
+    color: gray;
+    transition: color 0.3s, transform 0.3s;
+  }
+  
+  .icon-hover:hover {
+   
+    transform: scale(1.6); /* Slightly enlarge icon */
+  }

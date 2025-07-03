@@ -19,12 +19,16 @@ import { FormGroup } from '@angular/forms';
 export class RvChipsComponent implements OnInit {
   @Input() parentForm: FormGroup;
   @Input() formElement: any;
+  @Output() chipEvent = new EventEmitter<any>();
   tags: string[] = [];
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   announcer = inject(LiveAnnouncer);
 
   ngOnInit(): void {
+    if (this.formElement.options) {
+      this.tags = this.formElement.options;
+    }
   }
 
   add(event: MatChipInputEvent): void {
@@ -35,6 +39,7 @@ export class RvChipsComponent implements OnInit {
     }
     // Clear the input value
     event.chipInput!.clear();
+    this.chipEvent.emit(value);
   }
 
   remove(tag: string): void {
@@ -43,18 +48,23 @@ export class RvChipsComponent implements OnInit {
       this.tags.splice(index, 1);
       this.announcer.announce(`Removed ${tag}`);
       this.parentForm.controls[this.formElement.name].setValue(this.tags);
+      this.chipEvent.emit(tag);
     }
   }
-//   edit(tag: string, event: MatChipEditedEvent) {
-//     const value = event.value.trim();
-//     if (!value) {
-//       this.remove(tag);
-//       return;
-//     }
 
-//     const index = this.tags.indexOf(tag);
-//     if (index >= 0) {
-//       this.fruits[index].name = value;
-//     }
-//   }
- }
+  selected(event){
+
+  }
+  //   edit(tag: string, event: MatChipEditedEvent) {
+  //     const value = event.value.trim();
+  //     if (!value) {
+  //       this.remove(tag);
+  //       return;
+  //     }
+
+  //     const index = this.tags.indexOf(tag);
+  //     if (index >= 0) {
+  //       this.fruits[index].name = value;
+  //     }
+  //   }
+}

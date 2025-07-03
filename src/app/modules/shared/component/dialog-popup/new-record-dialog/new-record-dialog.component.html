@@ -1,0 +1,6 @@
+<mat-dialog-content *ngIf="loaded">
+    <app-employee-add-edit *ngIf="data.type=='employee'" [openFrom]="'dialog'" (action)="action($event)"></app-employee-add-edit>
+    <app-customer-add-edit *ngIf="data.type=='customer'" [openFrom]="'dialog'" (action)="action($event)"></app-customer-add-edit>
+    <app-payment-add-edit *ngIf="data.type=='payment'" [openFrom]="'dialog'" (action)="action($event)"></app-payment-add-edit>
+
+</mat-dialog-content>

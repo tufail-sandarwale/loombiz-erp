@@ -1,0 +1,55 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="dialogForm" (ngSubmit)="onSubmit()">
+    <div *ngFor="let field of data.fields" class="w-full px-2">
+      
+      <!-- Input Field -->
+      <mat-form-field class="fuse-mat-dense mx-1 w-full" *ngIf="field.type === 'input'">
+        <mat-label>{{ field.label }}</mat-label>
+        <input matInput [formControlName]="field.name" [placeholder]="field.placeholder">
+        <!-- Display error message when control is invalid and touched -->
+        <mat-error *ngIf="dialogForm.get(field.name)?.invalid && dialogForm.get(field.name)?.touched">
+          {{ field.label }} is required
+        </mat-error>
+      </mat-form-field>
+ 
+      <!-- Select Dropdown Field -->
+       <mat-form-field class="fuse-mat-dense mx-1 w-full" *ngIf="field.type === 'select'">
+        <mat-label>{{ field.label }}</mat-label>
+        <mat-select [formControlName]="field.name">
+          <mat-option *ngFor="let option of field.options" [value]="option.key">
+            {{ option.value }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="dialogForm.get(field.name)?.invalid && dialogForm.get(field.name)?.touched">
+          {{ field.label }} is required
+        </mat-error>
+      </mat-form-field>
+
+<!-- Dynamically show the tax details -->
+<!-- <div *ngIf="showParentGroupDetails  && field.name === 'parentGroup'">
+  <p><strong>Group Under:</strong> {{ selectedDetails?.rate || ' ' }}</p>
+  <p><strong>Group Nature:</strong> {{ selectedDetails?.country || ' ' }}</p>
+  <p><strong>Group Level:</strong> {{ selectedDetails?.state || ' ' }}</p>
+</div> -->
+  <!-- radio button -->
+  <div *ngIf="field.type === 'radio'" class="radio-group-row">
+    <!-- <label>{{ field.label }}: </label> -->
+    <mat-radio-group [formControlName]="field.name">
+      <mat-radio-button *ngFor="let option of field.options" [value]="option.key" class="mx-2">
+        {{ option.value }}
+      </mat-radio-button>
+    </mat-radio-group>
+    <mat-error *ngIf="dialogForm.get(field.name)?.invalid && dialogForm.get(field.name)?.touched">
+      {{ field.label }} is required
+    </mat-error>
+  </div>
+
+      </div>
+ 
+    <mat-dialog-actions>
+      <button mat-raised-button color="accent" mat-dialog-close>Cancel</button>
+      <button mat-raised-button color="primary" type="submit">{{ isEditMode ? 'Update' : 'Add' }}</button>
+    </mat-dialog-actions>
+  </form>
+</mat-dialog-content>

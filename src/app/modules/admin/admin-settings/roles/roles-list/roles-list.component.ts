@@ -4,13 +4,10 @@ import { SharedMaterialModules } from 'app/modules/shared/modules/shared-materia
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatTableDataSource } from '@angular/material/table';
-import { Product } from 'app/core/modal/product';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { RolesService } from '../roles.service';
-import { result } from 'lodash';
-import { FuseConfirmationConfig, FuseConfirmationService } from '@fuse/services/confirmation';
 import { AlertsService } from 'app/core/services/alerts.service';
 
 @Component({
@@ -46,7 +43,7 @@ export class RolesListComponent implements OnInit {
     };
   }
   add() {
-    this.router.navigate(['/setting/roles/add']);
+    this.router.navigate(['/admin-settings/roles/add']);
   }
 
   onPaging(event) {

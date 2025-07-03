@@ -1,0 +1,16 @@
+<mat-form-field class="fuse-mat-dense w-full">
+    <mat-label>{{label?label:'Options'}}</mat-label>
+    <mat-chip-grid #chipGrid>
+        @for (tag of tags; track tag) {
+        <mat-chip-row (removed)="remove(tag)" [editable]="false">
+            {{tag}}
+            <button matChipRemove [attr.aria-label]="'remove ' + tag">
+                <mat-icon>cancel</mat-icon>
+            </button>
+        </mat-chip-row>
+        }
+        <input [placeholder]="'New Tag...'" [matChipInputFor]="chipGrid"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event)" />
+    </mat-chip-grid>
+</mat-form-field>

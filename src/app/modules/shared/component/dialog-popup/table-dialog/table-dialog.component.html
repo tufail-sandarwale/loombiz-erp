@@ -1,0 +1,6 @@
+<mat-dialog-content>
+    <app-sale-order-list *ngIf="data.type=='saleOrderList'" [openList]="'dialog'" (action)="action($event)"></app-sale-order-list>
+    <app-payment-list *ngIf="data.type=='paymentList'" [openList]="'dialog'" (action)="action($event)"></app-payment-list>
+    <app-credit-notes-list *ngIf="data.type=='creditNotesList'" [openList]="'dialog'" (action)="action($event)"></app-credit-notes-list>
+    <app-sales-register-list *ngIf="data.type=='cashControlList'" [openList]="'dialog'" (action)="action($event)"></app-sales-register-list>
+</mat-dialog-content>

@@ -1,0 +1,27 @@
+<mat-toolbar color="primary" class="mat-elevation-z2" style="height: 30px;">
+  <nav class="breadcrumb">
+    <!-- ✅ Show only Home icon if on /home -->
+    <ng-container *ngIf="isHomePage; else fullBreadcrumb">
+      <mat-icon>home</mat-icon>
+    </ng-container>
+
+    <!-- ✅ Show full breadcrumb otherwise -->
+    <ng-template #fullBreadcrumb>
+      <ng-container *ngFor="let breadcrumb of breadcrumbs; let last = last">
+        <a (click)="goTo(breadcrumb)" *ngIf="!last" [routerLink]="breadcrumb.url" class="breadcrumb-link">
+          <ng-container *ngIf="breadcrumb.label === 'Home'; else labelTpl">
+            <mat-icon>home</mat-icon>
+          </ng-container>
+          <ng-template #labelTpl>{{ breadcrumb.label }}</ng-template>
+        </a>
+        <a  (click)="goTo(breadcrumb)" *ngIf="last" class="breadcrumb-link">
+          <ng-container *ngIf="breadcrumb.label === 'Home'; else lastLabelTpl">
+            <mat-icon>home</mat-icon>
+          </ng-container>
+          <ng-template #lastLabelTpl>{{ breadcrumb.label }}</ng-template>
+        </a>
+        <span *ngIf="!last" class="breadcrumb-separator">/</span>
+      </ng-container>
+    </ng-template>
+  </nav>
+</mat-toolbar>

@@ -1,0 +1,23 @@
+.breadcrumb-toolbar {
+  padding: 8px;
+  font-size: 14px;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+.breadcrumb-link {
+  cursor: pointer;
+  text-decoration: none;
+  pointer-events: auto;
+}
+
+
+.breadcrumb-active {
+  font-weight: bold;
+}
+
+.breadcrumb-separator {
+  font-size: 20px;
+  vertical-align: middle;
+  margin: 0 4px;
+}

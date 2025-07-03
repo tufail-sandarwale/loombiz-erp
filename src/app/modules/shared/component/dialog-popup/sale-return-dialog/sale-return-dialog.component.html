@@ -1,0 +1,111 @@
+<div class="flex w-full h-full p-1.5" *ngIf="loaded">
+    <div class="w-full flex">
+        <div class="flex flex-col pl-4 pr-4 pb-1 w-full gap-2">
+            <span class="text-lg font-bold">Sale Return for Invoice: {{currentOrder.invoiceNo}}</span>
+            <span class="text-sm -mt-2">select/scan products for return</span>
+            <form [formGroup]="posForm" class="flex flex-wrap mt-2" autocomplete="off">
+                <span #focusElement></span>
+                <div class="w-full flex items-center gap-5">
+                    <app-rv-auto-complete class="w-full" [parentForm]="posForm"
+                        [formElement]="productVariantFormElement" [clearInputAfterSelect]="true"
+                        (valueSelected)="variantSelected($event)" [advanceSearch]="true"></app-rv-auto-complete>
+                </div>
+            </form>
+            <div class="w-full h-[80%] overflow-y-auto">
+                <table *ngIf="posGridDataSource" mat-table [dataSource]="posGridDataSource"
+                    class="fuse-mat-dense rounded-2x w-full" color="primary">
+                    <ng-container matColumnDef="position">
+                        <th mat-header-cell *matHeaderCellDef class="bg-primary"> No. </th>
+                        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="saleAssociate">
+                        <th mat-header-cell *matHeaderCellDef class="bg-primary"> </th>
+                        <td mat-cell *matCellDef="let element">
+                            <span [matTooltip]="element.saleAssociateName"
+                                class="material-symbols-outlined cursor-pointer text-black">
+                                person
+                            </span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="barcode">
+                        <th mat-header-cell *matHeaderCellDef class="bg-primary"> Bar Code </th>
+                        <td mat-cell *matCellDef="let element"> {{element.barcode}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="shortName">
+                        <th mat-header-cell *matHeaderCellDef class="bg-primary"> Short Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.shortName}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="originalQty">
+                        <th mat-header-cell *matHeaderCellDef class="bg-primary"> Order Qty </th>
+                        <td mat-cell *matCellDef="let element"> {{element.originalQty}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="qty">
+                        <th mat-header-cell *matHeaderCellDef class="bg-primary">Return Qty </th>
+                        <td mat-cell *matCellDef="let element" class="pt-1 pb-1">
+                            <mat-form-field class="fuse-mat-dense w-[60px]">
+                                <input class="change-qty" type="number" matInput [(ngModel)]="element.qty"
+                                    (ngModelChange)="changeQty(element, $event)">
+                            </mat-form-field>
+                            @if (element.qtyInvalid) {
+                            <span class="text-red-700 text-xs block">Quantity not matching</span>
+                            }
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="unit">
+                        <th mat-header-cell *matHeaderCellDef class="bg-primary"> UOM </th>
+                        <td mat-cell *matCellDef="let element"> {{element.uom}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="sellingDiscount">
+                        <th mat-header-cell *matHeaderCellDef class="bg-primary"> Selling Discount </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.sellingDiscount>0?element.sellingDiscount:element.sellingDiscountPercentage}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="billDiscount">
+                        <th mat-header-cell *matHeaderCellDef class="bg-primary"> Bill Discount </th>
+                        <td mat-cell *matCellDef="let element"> {{element.billDiscount}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="discount1">
+                        <th mat-header-cell *matHeaderCellDef class="bg-primary"> Discount 1 </th>
+                        <td mat-cell *matCellDef="let element"> {{element.discount1}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="discount2">
+                        <th mat-header-cell *matHeaderCellDef class="bg-primary"> Discount 2 </th>
+                        <td mat-cell *matCellDef="let element"> {{element.discount2}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="discountScheme">
+                        <th mat-header-cell *matHeaderCellDef class="bg-primary"> Discount Scheme </th>
+                        <td mat-cell *matCellDef="let element"> {{element.discountScheme}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="discountCRM">
+                        <th mat-header-cell *matHeaderCellDef class="bg-primary"> Discount CRM </th>
+                        <td mat-cell *matCellDef="let element"> {{element.discountCRM}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="mrpChange">
+                        <th mat-header-cell *matHeaderCellDef class="bg-primary"> MRP</th>
+                        <td mat-cell *matCellDef="let element"> {{element.mrpChange}} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="posGridColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: posGridColumns;"></tr>
+                </table>
+            </div>
+            <mat-form-field class="fuse-mat-dense w-full">
+                <input matInput placeholder="Remarks">
+            </mat-form-field>
+            <div class="flex flex-col gap-2">
+                <div class="flex flex-row gap-4 flex-wrap">
+                    <button mat-raised-button class="bg-primary text-white" (click)="submit()">
+                        Submit
+                    </button>
+                    <button mat-raised-button class="text-black" mat-dialog-close>
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

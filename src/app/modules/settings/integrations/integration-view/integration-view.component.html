@@ -1,0 +1,50 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto p-6">
+        <div class="w-full flex justify-between items-center mb-2">
+            <mat-label class="table-title float-left">{{
+                "title-integration" | transloco
+            }}</mat-label>
+        </div>
+        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
+          <!-- <mat-tab label="Ecommerce" [disabled]="true">
+                <div class="flex flex-row">
+                 </div>
+                   
+             
+            </mat-tab>
+            <mat-tab label="Payment" [disabled]="true">
+                <div class="flex flex-row">
+                
+                </div> 
+            </mat-tab>  -->
+            <mat-tab label="Messages">
+                <div class="flex flex-row">
+                  
+                </div>
+            </mat-tab>
+            <!-- <mat-tab label="Loyalty" [disabled]="true">
+                <div class="flex flex-row">
+                   
+                    
+                </div>
+            </mat-tab>
+            <mat-tab label="GST" [disabled]="true">
+                <div class="flex flex-row">
+                  
+                </div>
+            </mat-tab>
+            <mat-tab label="API" [disabled]="true">
+                <div class="flex flex-row">
+                
+                </div>
+            </mat-tab>
+            <mat-tab label="Self Checkout" [disabled]="true">
+                <div class="flex flex-row">
+                  
+                </div>
+            </mat-tab> -->
+            
+        </mat-tab-group>
+        <router-outlet></router-outlet>
+    </div>
+</div>

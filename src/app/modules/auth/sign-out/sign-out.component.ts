@@ -1,6 +1,6 @@
 import { I18nPluralPipe, NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'app/core/auth/auth.service';
 import { finalize, Subject, takeUntil, takeWhile, tap, timer } from 'rxjs';
 
@@ -13,6 +13,7 @@ import { finalize, Subject, takeUntil, takeWhile, tap, timer } from 'rxjs';
 })
 export class AuthSignOutComponent implements OnInit, OnDestroy
 {
+    logoutMessage: string | null = null;
     countdown: number = 5;
     countdownMapping: any = {
         '=1'   : '# second',
@@ -26,6 +27,7 @@ export class AuthSignOutComponent implements OnInit, OnDestroy
     constructor(
         private _authService: AuthService,
         private _router: Router,
+        private _activated_route: ActivatedRoute ,
     )
     {
     }
@@ -39,6 +41,9 @@ export class AuthSignOutComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+        this._activated_route.queryParams.subscribe(params => {
+            this.logoutMessage = params['message'] || "You have been signed out.";
+        });
         // Sign out
         this._authService.signOut();
 

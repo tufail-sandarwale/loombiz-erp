@@ -1,0 +1,148 @@
+ 
+<mat-dialog-content class="p-3">
+  <div class="p-2">
+  <strong  class="text-center font-semibold text-base">Current Time:  {{ formattedRange }} </strong> 
+  <button mat-icon-button (click)="onClose()" style="float:right; font-size: 14px;" class="float-right">
+    <mat-icon>close</mat-icon>
+</button>
+</div>
+  <form [formGroup]="dialogForm" (ngSubmit)="onSubmit()">
+    <!-- Container Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+  <!-- 🟩 Summary Table -->
+  <div class="p-3 bg-white ">
+     <table mat-table [dataSource]="summaryData" class="w-full mat-elevation-z2">
+  <!-- Label Column -->
+  <ng-container matColumnDef="label">
+    <td mat-cell *matCellDef="let row">{{ row.label }}</td>
+  </ng-container>
+
+  <!-- Value Column -->
+  <ng-container matColumnDef="value">
+    <td mat-cell *matCellDef="let row">₹{{ row.value | number: '1.2-2' }}</td>
+  </ng-container>
+
+  <!-- ❌ Do NOT include this -->
+  <!-- <tr mat-header-row *matHeaderRowDef="['label', 'value']"></tr> -->
+
+  <!-- ✅ Only include data rows -->
+  <tr mat-row *matRowDef="let row; columns: ['label', 'value'];" [class.font-bold]="row.isBold"></tr>
+</table>
+
+  </div>
+
+  <!-- 🟨 Denominations Table -->
+  <div class="p-0 bg-white">
+    
+    <table class="w-1/2">
+      <thead class="bg-primary text-white">
+        <tr>
+          <th class="p-1">Currency</th>
+          <th class="w-1/4">Nos</th>
+          <th class="p-0">Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let group of denominationsArray.controls; let i = index" [formGroup]="group">
+          <td class="p-0">{{ denominations[i]?.label }}</td>
+          <td class="p-1 w-1/4">
+            <mat-form-field  class="fuse-mat-dense w-full max-h-400">
+              <input
+                matInput
+                type="text"
+                formControlName="nos"
+                (input)="onTextInput($event, i)"
+                (keydown)="preventInvalidKeys($event)"
+                autocomplete="off"
+                placeholder="0"
+                class="p-0"
+              >
+
+              <!-- <input matInput type="number" formControlName="nos" (input)="updateAmount(i)"> -->
+            </mat-form-field>
+          </td>
+          <td class="p-0">
+            <mat-form-field  class="fuse-mat-dense w-full">
+              <input matInput formControlName="amount" disabled>
+            </mat-form-field>
+          </td>
+        </tr>
+         <tr class="font-bold bg-gray-100">
+        <td colspan="2" class="text-center pr-2">Total</td>
+        <td class="p-2">₹{{ getTotalAmount() | number: '1.2-2' }}</td>
+      </tr>
+      </tbody>
+    </table>
+  
+   <!-- <table mat-table [dataSource]="denominationsArray.controls" class="w-full mat-elevation-z2" multiTemplateDataRows>
+      <ng-container matColumnDef="currency">
+    <th mat-header-cell *matHeaderCellDef class="bg-primary  p-1">Currency</th>
+    <td mat-cell *matCellDef="let group; let i = index" class="text-gray-500">
+      {{ denominations[i]?.label }}
+    </td>
+  </ng-container>
+
+   <ng-container matColumnDef="nos">
+    <th mat-header-cell *matHeaderCellDef class="bg-primary text-white w-1/4">Nos</th>
+    <td mat-cell *matCellDef="let group; let i = index" [formGroup]="group">
+      <mat-form-field class="fuse-mat-dense w-full">
+        <input matInput type="number" formControlName="nos" (input)="updateAmount(i)">
+      </mat-form-field>
+    </td>
+  </ng-container>
+ 
+  <ng-container matColumnDef="amount">
+    <th mat-header-cell *matHeaderCellDef class="bg-primary text-white p-1">Amount</th>
+    <td mat-cell *matCellDef="let group" [formGroup]="group">
+      <mat-form-field class="fuse-mat-dense w-full">
+        <input matInput formControlName="amount" disabled>
+      </mat-form-field>
+    </td>
+  </ng-container>
+ <tr mat-header-row *matHeaderRowDef="['currency', 'nos', 'amount']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['currency', 'nos', 'amount'];"></tr>
+   </table> -->
+
+  </div>
+
+  <!-- 🟦 Form Fields -->
+  <div class="p-1 bg-white rounded shadow border">
+    <no-container *ngFor="let field of data.fields" class="mb-4">
+      <!-- Input -->
+      <mat-form-field appearance="fill" class="fuse-mat-dense w-full" *ngIf="field.type === 'input'">
+        <mat-label>{{ field.label }}</mat-label>
+        <input matInput [formControlName]="field.name" [placeholder]="field.placeholder" [disabled]="field.disabled">
+        <mat-error *ngIf="dialogForm.get(field.name)?.invalid && dialogForm.get(field.name)?.touched">
+          {{ field.label }} is required
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Select -->
+      <mat-form-field  appearance="fill" class="fuse-mat-dense w-full" *ngIf="field.type === 'select'">
+        <mat-label>{{ field.label }}</mat-label>
+        <mat-select [formControlName]="field.name">
+          <mat-option *ngFor="let option of field.options" [value]="option.key">{{ option.value }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="dialogForm.get(field.name)?.invalid && dialogForm.get(field.name)?.touched">
+          {{ field.label }} is required
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Textarea -->
+      <mat-form-field appearance="fill"  class="fuse-mat-dense w-full" *ngIf="field.type === 'textarea'">
+        <mat-label>{{ field.label }}</mat-label>
+        <textarea matInput [formControlName]="field.name" [placeholder]="field.placeholder"></textarea>
+      </mat-form-field>
+    </no-container>
+  </div>
+</div>
+
+
+
+    <!-- Actions -->
+    <mat-dialog-actions align="end" class="mt-4">
+      <button mat-button mat-dialog-close>Cancel</button>
+      <button mat-raised-button color="primary" type="submit">Submit</button>
+    </mat-dialog-actions>
+  </form>
+</mat-dialog-content>

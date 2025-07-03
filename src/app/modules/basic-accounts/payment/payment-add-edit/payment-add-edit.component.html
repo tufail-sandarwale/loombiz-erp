@@ -1,0 +1,258 @@
+<div class="flex flex-col flex-auto min-w-0">
+  <div class="flex-auto p-6">
+      <div class="w-full flex justify-between items-center mb-2">
+          <mat-label class="table-title float-left" *ngIf="!editMode">{{ 'label-payment.new-payment' | transloco }}</mat-label>
+          <mat-label class="table-title float-left" *ngIf="editMode">{{ 'label-payment.edit-payment' | transloco }}</mat-label>
+      </div>
+      <div class="h-98 rounded-2xl mt-2.5">
+          <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()" class="flex flex-wrap mt-2" autocomplete="off">
+              <mat-accordion class="w-full" multi>
+                  <mat-expansion-panel [expanded]="true">
+                      <mat-expansion-panel-header>
+                          <mat-panel-title>
+                              Payment Details
+                          </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <div class="flex flex-wrap">
+                          <!-- <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                              <mat-form-field class="fuse-mat-dense w-full">
+                                  <mat-label>{{'label-payment.Payment-No' | transloco}}</mat-label>
+                                  <input matInput formControlName="paymentNo" placeholder="Payment No" readonly />
+                              </mat-form-field>
+                          </div> -->
+                          <div class="w-full sm:w-1/2 md:w-1/4 px-2 py-5">
+                              <mat-label> </mat-label>
+                              <mat-card>
+                                  <mat-radio-group formControlName="paymentMode" class="fuse-mat-dense w-full" (change)="onPaymentOptionChange($event)">
+                                      <mat-radio-button value="cash">Cash </mat-radio-button>
+                                      <mat-radio-button value="bank">Bank</mat-radio-button>
+                                  </mat-radio-group>
+                                
+                              </mat-card>
+                              <mat-error *ngIf="paymentForm.get('paymentMode').hasError('required') && paymentForm.get('paymentMode').touched">
+                                Payment Mode is required
+                              </mat-error>
+                          </div>
+                          <!-- Conditionally show these radio buttons when 'Bank' is selected -->
+                          <div class="w-full sm:w-1/2 md:w-1/4 px-2 py-5" *ngIf="paymentForm.get('paymentMode').value === 'bank'">
+                              <mat-card>
+                                  <mat-radio-group formControlName="bankType" class="fuse-mat-dense w-full" (change)="onBankOptionChange($event)">
+                                      <div class="radio-box">
+                                          <mat-radio-button value="online" class="radio-item">online</mat-radio-button>
+                                          <mat-radio-button value="cheque" class="radio-item">Cheque</mat-radio-button>
+                                      </div>
+                                  </mat-radio-group>
+                                  <div *ngIf="paymentForm.get('bankType').invalid && paymentForm.get('bankType').touched">
+                                    <span *ngIf="paymentForm.get('bankType').errors?.required">Bank option is required.</span>
+                                  </div>
+                              </mat-card>
+                          </div>
+                          <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                              <mat-form-field class="fuse-mat-dense w-full">
+                                  <mat-label>{{'label-payment.select-type' | transloco}}</mat-label>
+                                  <mat-select formControlName="accountGroup">
+                                    
+                                        <mat-option *ngFor="let option of accountGroupOptions" [value]="option.key">
+                                            {{ option.value }}
+                                        </mat-option>
+                                       
+                                      
+                                  </mat-select>
+                                  <mat-error *ngIf="paymentForm.get('accountGroup').hasError('required') && paymentForm.get('accountGroup').touched">
+                                    Account Group is required
+                                  </mat-error>
+                              </mat-form-field>
+                          </div>
+                          <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                              <mat-form-field class="fuse-mat-dense w-full">
+                                  <mat-label>{{'label-payment.select-party-name' | transloco}}</mat-label>
+                                  <mat-select formControlName="accountsDetails">
+                                    <mat-option *ngFor="let option of accountList" [value]="option.key">
+                                        {{ option.value }}
+                                    </mat-option>
+                                  </mat-select>
+                                  <mat-error *ngIf="paymentForm.get('accountsDetails').hasError('required') && paymentForm.get('accountsDetails').touched">
+                                    Party Name is required
+                                  </mat-error>
+                              </mat-form-field>
+                              
+                          </div>
+                          <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                              <mat-form-field class="fuse-mat-dense w-full">
+                                  <mat-icon matPrefix svgIcon="heroicons_outline:clock" class="icon-size-5"></mat-icon>
+                                  <mat-label>{{ "label-payment.payment-date" | transloco }}</mat-label>
+                                  <input matInput formControlName="paymentDate" placeholder="Payment Date" readonly />
+                              </mat-form-field>
+                          </div>
+                          <div class="w-full sm:w-1/2 md:w-1/4 px-2" *ngIf="paymentForm.get('bankType').value === 'online'">
+                              <mat-form-field class="fuse-mat-dense w-full">
+                                  <mat-icon matPrefix svgIcon="heroicons_outline:clock" class="icon-size-5"></mat-icon>
+                                  <mat-label>{{ "label-payment.transaction-date" | transloco }}</mat-label>
+                                  <input matInput formControlName="transactionDate" placeholder="Transaction Date" readonly />
+                              </mat-form-field>
+                          </div>
+                          <div class="w-full sm:w-1/2 md:w-1/4 px-2" *ngIf="paymentForm.get('bankType').value === 'online'">
+                              <mat-form-field class="fuse-mat-dense w-full">
+                                  <mat-label>{{'label-payment.transaction-No' | transloco}}</mat-label>
+                                  <input matInput formControlName="transactionNo" placeholder="Transaction No" />
+                                  <mat-error *ngIf="paymentForm.get('transactionNo').hasError('required') && paymentForm.get('transactionNo').touched">
+                                    Transaction No is required
+                                  </mat-error>
+                               
+                                </mat-form-field>
+                          
+                          </div>
+
+                          <div class="w-full sm:w-1/2 md:w-1/4 px-2" *ngIf="paymentForm.get('bankType').value === 'cheque'">
+                              <mat-form-field class="fuse-mat-dense w-full">
+                                  <mat-label>{{'label-payment.cheque-date' | transloco}}</mat-label>
+                                  <input matInput formControlName="chequeDate" placeholder="Cheque Date" readonly />
+                              </mat-form-field>
+                          </div>
+                          <div class="w-full sm:w-1/2 md:w-1/4 px-2" *ngIf="paymentForm.get('bankType').value === 'cheque'">
+                              <mat-form-field class="fuse-mat-dense w-full">
+                                  <mat-label>{{'label-payment.cheque-no' | transloco}}</mat-label>
+                                  <input matInput formControlName="chequeNo" placeholder="Cheque No" />
+                                  <mat-error *ngIf="paymentForm.get('chequeNo').hasError('required') && paymentForm.get('chequeNo').touched">
+                                    Cheque No is required
+                                    </mat-error>    
+                                 
+                              </mat-form-field>
+                          </div>
+                          <div class="w-full sm:w-1/2 md:w-1/2 px-2 py-5">
+                              <mat-label> </mat-label>
+                              <mat-card>
+                                  <mat-radio-group formControlName="paymentType" class="fuse-mat-dense w-full">
+                                      <mat-radio-button value="on_account">On Account </mat-radio-button>
+                                      <mat-radio-button value="advance_payment">Advance Payment</mat-radio-button>
+                                      <mat-radio-button value="against_voucher">Against Voucher </mat-radio-button>
+                                  </mat-radio-group>
+                                 
+                              </mat-card>
+                               <mat-error *ngIf="paymentForm.get('paymentType').hasError('required') && paymentForm.get('paymentType').touched">
+                                    Payment Type is required
+                                  </mat-error>
+                          </div>
+                          <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                              <mat-form-field class="fuse-mat-dense w-full">
+                                  <mat-label>{{'label-payment.ammount' | transloco}}</mat-label>
+                                  <input matInput formControlName="amount" placeholder="Amount" />
+                                  <mat-error *ngIf="paymentForm.get('amount').hasError('required') && paymentForm.get('amount').touched">
+                                    Amount is required
+                                  </mat-error>
+                              </mat-form-field>
+                          </div>
+                          <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                              <mat-form-field class="fuse-mat-dense w-full">
+                                  <mat-label>{{'label-payment.description' | transloco}}</mat-label>
+                                  <input matInput formControlName="description" placeholder="Description" />
+                              </mat-form-field>
+                          </div>
+                          <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                              <mat-form-field class="fuse-mat-dense w-full">
+                                  <mat-label>{{'label-payment.payment-status' | transloco}}</mat-label>
+                                  <mat-select formControlName="paymentStatus">
+                                      <mat-option *ngFor="let status of paymentStatuses" [value]="status">{{ status | titlecase }}</mat-option>
+                                  </mat-select>
+                                  <mat-error *ngIf="paymentForm.get('paymentStatus').hasError('required')">
+                                    Payment Status is required.
+                                  </mat-error>
+                              </mat-form-field>
+                          </div>
+                      </div>
+                  </mat-expansion-panel>
+                  <!-- <mat-expansion-panel [expanded]="true">
+                      <mat-expansion-panel-header>
+                          <mat-panel-title>
+                              Data Grid
+                          </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <div class="flex flex-wrap items-center">
+                        <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                          <mat-form-field class="fuse-mat-dense w-full">
+                          <mat-label>{{'label-payment.bill-no' | transloco}}</mat-label>
+                          <mat-select formControlName="billNo">
+                            <mat-option>
+                              bill no
+                            </mat-option>
+                          </mat-select>
+                          </mat-form-field>
+                        </div>
+                         <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                            <mat-form-field class="fuse-mat-dense w-full">
+                              <mat-label>{{'label-payment.net-amount'  | transloco}}</mat-label>
+                              <input
+                               matInput 
+                               formControlName="netAmount" 
+                               placeholder="Net Amount"
+                               (blur)="formUtils.setMaxDecimalPlaces(getNumberFieldControl('netAmount'))"
+                               >
+                            </mat-form-field>
+                          </div>
+                          
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                              <mat-form-field class="fuse-mat-dense w-full">
+                                
+                                <mat-label>{{'label-payment.paid-amount' | transloco}}</mat-label>
+                                <input
+                                 matInput 
+                                 formControlName="paidAmount" 
+                                 placeholder="Paid Amount"  
+                                 (blur)="formUtils.setMaxDecimalPlaces(getNumberFieldControl('paidAmount'))"
+                                 >
+                              </mat-form-field>
+                            </div>
+                         
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                               <mat-form-field class="fuse-mat-dense w-full">
+                                      <mat-label>{{'label-payment.pending-amount' | transloco}}</mat-label>
+                                      <input
+                                       matInput 
+                                       formControlName="pendingAmount" 
+                                       placeholder="Pending Amount"
+                                       (blur)="formUtils.setMaxDecimalPlaces(getNumberFieldControl('pendingAmount'))"
+                                       >
+                              </mat-form-field>
+                            </div>
+                            <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                              <mat-form-field class="fuse-mat-dense w-full">
+                                  <mat-label>{{'label-payment.kasar-amount' | transloco}}</mat-label>
+                                      <input 
+                                      matInput 
+                                      formControlName="kasarAmount" 
+                                      placeholder="Kasar Amount"
+                                      (blur)="formUtils.setMaxDecimalPlaces(getNumberFieldControl('kasarAmount'))"
+                                      >
+                              </mat-form-field>
+                          </div>
+                          <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                              <mat-form-field class="fuse-mat-dense w-full">
+                                  <mat-label>{{'label-payment.amount' | transloco}}</mat-label>
+                                  <input 
+                                  matInput  
+                                  formControlName="amount" 
+                                  placeholder="Amount"
+                                  (blur)="formUtils.setMaxDecimalPlaces(getNumberFieldControl('amount'))"
+                                  >
+                             </mat-form-field>
+                          </div>
+                          <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                            <mat-form-field class="fuse-mat-dense w-full">
+                                <mat-label>{{'label-payment.payment-amount' | transloco}}</mat-label>
+                                <input 
+                                matInput  
+                                formControlName="PaymentAmount" 
+                                placeholder="Payment Amount"
+                                (blur)="formUtils.setMaxDecimalPlaces(getNumberFieldControl('paymentAmount'))"
+                                >
+                           </mat-form-field>
+                        </div>
+                      </div>
+                  </mat-expansion-panel> -->
+              </mat-accordion>
+              <button class="mt-10" type="submit" mat-raised-button>SAVE</button>
+              <button class="mt-10 mx-5" type="button" mat-raised-button (click)="cancel()"> Cancel</button>
+          </form>
+      </div>
+  </div>
+</div>

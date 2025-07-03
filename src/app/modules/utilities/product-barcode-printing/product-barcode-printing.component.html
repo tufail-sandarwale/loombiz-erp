@@ -1,0 +1,151 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto p-6">
+        <!-- Header Title -->
+        <div class="flex justify-between w-full">
+            <mat-label class="table-title float-left">{{ 'barcode-printing-title' | transloco }}</mat-label>
+        </div>
+
+        <div class="h-400 min-h-400 max-h-400 rounded-2xl mt-2.5">
+            <form [formGroup]="barcodeForm"> 
+                <div class="flex flex-wrap w-full gap-4">
+                    <!-- Left Section (Barcode Scan) -->
+                    <div class="flex-1 min-w-[450px]">
+                        <mat-label>{{ 'label-barcode-printing.scan-barcode' | transloco }}</mat-label>
+                        <app-rv-auto-complete 
+                            class="w-full"
+                            [parentForm]="barcodeForm"
+                            [formElement]="productVariantFormElement"
+                            [clearInputAfterSelect]="true"
+                            (valueSelected)="variantSelected($event)"
+                            [advanceSearch]="true"
+                            [showAllOptionsOnClick]="false">
+                        </app-rv-auto-complete>
+                    </div>
+            
+                    <!-- Middle Section (Print Type, Date Format, Barcode Size) -->
+                    <div class="flex-1 min-w-[250px]">
+                        <mat-form-field class="fuse-mat-dense w-full">
+                            <mat-label>{{ 'label-barcode-printing.print-type' | transloco }}</mat-label>
+                            <mat-select [(value)]="selectedPrintType">
+                                <mat-option value="" disabled selected>Select Print Type</mat-option>
+                                <mat-option *ngFor="let option of printTypes" [value]="option.key">
+                                    {{ option.value }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+            
+                        <mat-form-field class="fuse-mat-dense w-full mt-2">
+                            <mat-label>{{ 'label-barcode-printing.date-format' | transloco }}</mat-label>
+                            <mat-select [(value)]="selectedDateFormat"> 
+                                <mat-option value="" disabled selected>Select Date Format</mat-option>
+                                <mat-option *ngFor="let option of dateFormat" [value]="option.key">
+                                    {{ option.value }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+            
+                        <mat-form-field class="fuse-mat-dense w-full mt-2">
+                            <mat-label>{{ 'label-barcode-printing.barcode-size' | transloco }}</mat-label>
+                            <mat-select>
+                                <mat-option value="" disabled selected>Select Barcode Size</mat-option>
+                                <mat-option></mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+            
+                    <!-- Right Section (Barcode Image) -->
+                    <div class="flex-1 min-w-[250px] flex flex-col items-center justify-center">
+                        <img src="../../../../assets/images/avatars/barcode-sample.png" 
+                             alt="Barcode Image" 
+                             class="object-contain rounded-lg shadow-lg">
+                             <button mat-raised-button color="primary" class="mt-4">
+                                {{ 'label-barcode-printing.generte-barcode' | transloco }}
+                             </button>
+                    </div>
+                </div>
+            </form>
+            
+                <!-- Responsive Table Container -->
+                <div class="overflow-x-auto">
+                    <table *ngIf="posGridDataSource" mat-table [dataSource]="posGridDataSource" matSort class="w-full">
+                        <ng-container matColumnDef="itemCode">
+                            <th class="bg-primary" mat-header-cell *matHeaderCellDef mat-sort-header>Item Code</th>
+                            <td mat-cell *matCellDef="let element"> {{element.barcode}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="productName">
+                            <th class="bg-primary" mat-header-cell *matHeaderCellDef mat-sort-header>Product Name</th>
+                            <td mat-cell *matCellDef="let element"> {{element.shortName}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="qty">
+                            <th class="bg-primary" mat-header-cell *matHeaderCellDef mat-sort-header>Qty</th>
+                            <td mat-cell *matCellDef="let element"> 
+                                <mat-form-field class="fuse-mat-dense w-[60px]">
+                                    <input  type="number" matInput [(ngModel)]="element.qty"
+                                        >
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+
+                        <!-- <ng-container matColumnDef="batchNo">
+                            <th class="bg-primary" mat-header-cell *matHeaderCellDef mat-sort-header>Batch No</th>
+                            <td mat-cell *matCellDef="let element"> {{element.batchNo}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="packingDate">
+                            <th class="bg-primary" mat-header-cell *matHeaderCellDef mat-sort-header>Packing Date</th>
+                            <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                        </ng-container> -->
+
+                        <ng-container matColumnDef="mrp">
+                            <th class="bg-primary" mat-header-cell *matHeaderCellDef mat-sort-header>MRP</th>
+                            <td mat-cell *matCellDef="let element"> {{element.mrp}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="sellingPrice">
+                            <th mat-header-cell *matHeaderCellDef class="bg-primary">  Selling Price </th>
+                            <td mat-cell *matCellDef="let element"> {{element.netSellingPrice | rvDisplayPrice }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef class="bg-primary"> Action</th>
+                            <td mat-cell *matCellDef="let element; let i = index;">
+                                <span matTooltip="Delete" class="material-symbols-outlined cursor-pointer text-red-500"
+                                    (click)="remove(i)">delete</span>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        
+                        <!-- Show "No Data" Message if Table is Empty -->
+                        <tr *ngIf="posGridDataSource.data.length === 0 && !loading">
+                            <td class="text-center" colspan="{{ displayedColumns.length }}">No data available.</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- No Records Message -->
+                <div class="text-center" *ngIf="posGridDataSource && posGridDataSource.data.length == 0">
+                    No records found
+                </div>
+
+                <!-- Loading Spinner -->
+                <div *ngIf="loading" class="flex justify-center">
+                    <mat-spinner class="avatar spinner" [diameter]="60"></mat-spinner>
+                </div>
+
+                <!-- Pagination -->
+                <mat-paginator 
+                    #paginator 
+                    [pageSize]="pageSize" 
+                    [length]="totalElements"
+                    [hidePageSize]="false"
+                    [pageSizeOptions]="[10, 20, 50, 100]"
+                    showFirstLastButtons
+                    aria-label="Select page"
+                    (page)="onPaging($event)">
+                </mat-paginator>
+           
+        </div>
+    </div>
+</div>

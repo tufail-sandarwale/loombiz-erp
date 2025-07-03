@@ -1,0 +1,8 @@
+<div class="flex flex-col w-full p-5">
+    <h4 class="font-bold">Product UDF Settings</h4>
+    <div class="table-container w-full mt-2">
+        <app-client-side-table-view [tableData]="tableData" [tableColumns]="tableColumns"
+            [tableCode]="'product-quantity'" class="w-full overflow-x-auto" style="display: block;" [actions]="actions"
+            (actionClickedEvent)="tableAction($event)"></app-client-side-table-view>
+    </div>
+</div>

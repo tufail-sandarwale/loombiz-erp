@@ -1,0 +1,128 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto p-6">
+        <div class="flex justify-between w-full">
+            <mat-label class="table-title float-left">{{ 'lable-add-bank' | transloco }}</mat-label>
+        </div>
+        <div class="h-98 rounded-2xl mt-2.5">
+            <form [formGroup]="bankForm" (ngSubmit)="onSubmit()" class="flex flex-wrap -mx-2" autocomplete="off">
+               
+                                <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                    <mat-form-field class="fuse-mat-dense w-full">
+                                       
+                                        <mat-label >Account Group</mat-label>
+                                        <mat-select  formControlName="accountGroup">
+                                            <mat-option *ngFor="let option of accountGroupOptions" [value]="option.key">
+                                                {{ option.value }}
+                                            </mat-option>
+                                           
+                                          </mat-select>
+                                          <mat-error *ngIf="bankForm.get('accountGroup').hasError('required') && bankForm.get('accountGroup').touched">
+                                            Account Group is required
+                                          </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                    <mat-form-field class="fuse-mat-dense w-full">
+                                        <!-- <mat-icon matPrefix svgIcon="heroicons_outline:user-circle" class="icon-size-5"></mat-icon> -->
+                                        <mat-label >Bank Name</mat-label>
+                                        <input matInput formControlName="bankName">
+                                        <mat-error *ngIf="bankForm.get('bankName').hasError('required') && bankForm.get('bankName').touched">
+                                            Bank Name is required
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                    <mat-form-field class="fuse-mat-dense w-full">
+                                        <mat-label>Branch Name</mat-label>
+                                        <input matInput formControlName="branchName">
+                                        <mat-error *ngIf="bankForm.get('branchName').hasError('required') && bankForm.get('branchName').touched">
+                                            Branch Name is required
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                    <mat-form-field class="fuse-mat-dense w-full">
+                                        <mat-label>Account Holder Name </mat-label>
+                                        <input matInput formControlName="accountHolderName">
+                                    </mat-form-field>
+                                </div>
+                                <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                    <mat-form-field class="fuse-mat-dense w-full">
+                                        <mat-label>Account No </mat-label>
+                                        <input matInput formControlName="accountNo">
+                                        <mat-error *ngIf="bankForm.get('accountNo').hasError('required') && bankForm.get('accountNo').touched">
+                                            Account No is required
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                    <mat-form-field class="fuse-mat-dense w-full">
+                                        <mat-label>IFSC </mat-label>
+                                        <input matInput formControlName="ifscCode">
+                                    </mat-form-field>
+                                </div>
+                                <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                    <mat-form-field class="fuse-mat-dense w-full">
+                                        <mat-label>Swift Code </mat-label>
+                                        <input matInput formControlName="swiftCode">
+                                    </mat-form-field>
+                                </div>
+                                <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                    <mat-form-field class="fuse-mat-dense w-full">
+                                        <mat-label>Address </mat-label>
+                                        <input matInput formControlName="address">
+                                    </mat-form-field>
+                                </div>
+                                <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                    <mat-form-field class="fuse-mat-dense w-full">
+                                <mat-label>Country</mat-label>
+                                <mat-select formControlName="country">
+                                  <mat-option *ngFor="let country of countries" [value]="country.code">{{ country.name }}</mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="bankForm.get('country').hasError('required') && bankForm.get('country').touched">
+                                    Country is required
+                                </mat-error>
+                                </mat-form-field>
+                                </div>
+                                <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                  <mat-form-field class="fuse-mat-dense w-full">
+                                    <mat-label>State </mat-label>
+                                    <mat-select formControlName="state">
+                                      <mat-option *ngFor="let state of states" [value]="state.code">{{ state.name }}</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="bankForm.get('state').hasError('required') && bankForm.get('state').touched">
+                                        State is required
+                                    </mat-error>
+                                  </mat-form-field>
+                                </div>
+                                <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                    <mat-form-field class="fuse-mat-dense w-full">
+                                      <mat-label>City </mat-label>
+                                      <mat-select formControlName="city">
+                                        <mat-option *ngFor="let district of districts" [value]="district.code">{{ district.name }}</mat-option>
+                                      </mat-select>
+                                      <mat-error *ngIf="bankForm.get('city').hasError('required') && bankForm.get('city').touched">
+                                        City is required
+                                        </mat-error>
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                    <mat-form-field class="fuse-mat-dense w-full">
+                                        <mat-label>Zip Code </mat-label>
+                                        <input matInput formControlName="postalCode">
+                                    </mat-form-field>
+                                </div>
+                 <div class="w-full mt-5"></div>
+                <button type="submit" mat-raised-button color="primary">
+                    <mat-icon color="primary" svgIcon="save"></mat-icon>
+                    <span *ngIf="!editMode"> {{'button-save' | transloco}}</span>
+                    <span *ngIf="editMode"> {{'button-update' | transloco}}</span>
+                   </button>
+                <button type="button" mat-raised-button color="basic" (click)="cancel()" class="ml-2">
+                    <mat-icon svgIcon="cancel"></mat-icon>
+                    {{'button-cancel' | transloco}}
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

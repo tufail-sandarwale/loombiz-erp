@@ -1,0 +1,40 @@
+
+<!-- <mat-form-field class="fuse-mat-dense w-full">
+    <mat-label>{{ placeholder }}</mat-label> -->
+<label class="font-color "  style="font-size: 14.5px;">{{ placeholder }}</label>
+<div class="input-container">
+    <input matInput class="text-field-input"
+  ngxDaterangepickerMd
+  (ngModelChange)="ngModelChange($event)"
+  [(ngModel)]="selectedDateRange"
+  [showCustomRangeLabel]="true"
+  [alwaysShowCalendars]="true"
+  [ranges]="ranges"
+  [linkedCalendars]="true"
+  [showClearButton]="true"
+  [placeholder]="placeholder"
+  readonly
+  [value]="formattedDateRange" />
+</div>
+
+
+  <!-- <mat-form-field class="fuse-mat-dense w-full">
+    <mat-label>{{ placeholder }}</mat-label>
+    <input matInput
+    ngxDaterangepickerMd
+    [(ngModel)]="selectedDateRange"
+    [showCustomRangeLabel]="true"
+    [alwaysShowCalendars]="true"
+    [ranges]="ranges"
+    [linkedCalendars]="true"
+    [showClearButton]="true"
+    [placeholder]="placeholder"
+    readonly
+    [value]="formattedDateRange" />
+    <mat-icon matSuffix>calendar_today</mat-icon>
+  </mat-form-field> -->
+  
+
+<!-- <button mat-raised-button color="primary" (click)="applyDateRange()">Apply</button> -->
+
+

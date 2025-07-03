@@ -1,0 +1,79 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="dialogForm" (ngSubmit)="onSubmit()">
+    <div class="flex flex-wrap">
+      <!-- Loop through fields -->
+      <ng-container *ngFor="let field of data.fields">
+        <!-- Input / Select fields in two-column layout -->
+        <div
+          class="w-full sm:w-1/2 px-2"
+          *ngIf="field.type === 'input' || field.type === 'select'"
+        >
+          <mat-form-field class="fuse-mat-dense w-full">
+            <mat-label>{{ field.label }}</mat-label>
+
+            <!-- Input Field -->
+            <input
+              *ngIf="field.type === 'input'"
+              matInput
+              [formControlName]="field.name"
+              [placeholder]="field.placeholder"
+            />
+
+            <!-- Select Field -->
+            <mat-select *ngIf="field.type === 'select'" [formControlName]="field.name">
+              <mat-option *ngFor="let option of field.options" [value]="option.key">
+                {{ option.value }}
+              </mat-option>
+            </mat-select>
+
+            <!-- Validation -->
+            <mat-error
+              *ngIf="
+                dialogForm.get(field.name)?.invalid &&
+                dialogForm.get(field.name)?.touched
+              "
+            >
+              {{ field.label }} is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Textarea full width -->
+        <div class="w-full px-2" *ngIf="field.type === 'textarea'">
+          <mat-form-field class="fuse-mat-dense w-full">
+            <mat-label>{{ field.label }}</mat-label>
+            <textarea
+              matInput
+              [formControlName]="field.name"
+              [placeholder]="field.placeholder"
+              rows="4"
+            ></textarea>
+            <mat-error
+              *ngIf="
+                dialogForm.get(field.name)?.invalid &&
+                dialogForm.get(field.name)?.touched
+              "
+            >
+              {{ field.label }} is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- Dialog Actions -->
+    <mat-dialog-actions class="justify-end">
+      <button mat-raised-button color="accent" mat-dialog-close>Cancel</button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="dialogForm.invalid"
+      >
+        {{ isEditMode ? 'Update' : 'Add' }}
+      </button>
+    </mat-dialog-actions>
+  </form>
+</mat-dialog-content>

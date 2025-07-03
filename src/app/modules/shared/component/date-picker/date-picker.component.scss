@@ -1,0 +1,36 @@
+::ng-deep .mat-form-field-infix {
+    width: 100% !important; 
+  }
+  
+  ::ng-deep .cdk-overlay-container {
+    z-index: 10000 !important; /* Ensure date picker appears above other elements */
+  }
+  
+  ::ng-deep .ngx-daterangepicker-material {
+    max-width: none !important; 
+    width: auto !important; 
+    min-width: 350px !important; /* Ensures full calendar width */
+  }
+  
+  ::ng-deep .ngx-daterangepicker-material .ranges {
+    display: flex !important;
+    flex-direction: row !important; /* Ensures Today, Yesterday, etc., appear correctly */
+    justify-content: space-around !important;
+  }
+  .input-container {
+    position: static;
+    display: flex;
+    align-items: center;
+    min-height: 37px;
+    width: auto;
+    padding: 3px;
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    border-radius: 6px;
+    
+  }
+  .font-color {
+    pointer-events: auto;
+    font-weight: 500;
+    color: rgba(30,41,59, 1) !important;
+  }

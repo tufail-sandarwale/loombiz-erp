@@ -17,13 +17,14 @@ import { SearchComponent } from 'app/layout/common/search/search.component';
 import { ShortcutsComponent } from 'app/layout/common/shortcuts/shortcuts.component';
 import { UserComponent } from 'app/layout/common/user/user.component';
 import { Subject, takeUntil } from 'rxjs';
-
+import { BreadcrumbComponent } from 'app/modules/shared/component/breadcrumb/breadcrumb.component';
+import { AlertsService } from 'app/core/services/alerts.service';
 @Component({
     selector     : 'dense-layout',
     templateUrl  : './dense.component.html',
     encapsulation: ViewEncapsulation.None,
     standalone   : true,
-    imports      : [FuseLoadingBarComponent, FuseVerticalNavigationComponent, MatButtonModule, MatIconModule, LanguagesComponent, FuseFullscreenComponent, SearchComponent, ShortcutsComponent, MessagesComponent, NotificationsComponent, UserComponent, NgIf, RouterOutlet, QuickChatComponent],
+    imports      : [FuseLoadingBarComponent, FuseVerticalNavigationComponent, MatButtonModule, MatIconModule, LanguagesComponent, FuseFullscreenComponent, SearchComponent, ShortcutsComponent, MessagesComponent, NotificationsComponent, UserComponent, NgIf, RouterOutlet, QuickChatComponent, BreadcrumbComponent],
 })
 export class DenseLayoutComponent implements OnInit, OnDestroy
 {
@@ -66,6 +67,7 @@ export class DenseLayoutComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+        alert("dense layout");
         // Subscribe to navigation data
         this._navigationService.navigation$
             .pipe(takeUntil(this._unsubscribeAll))

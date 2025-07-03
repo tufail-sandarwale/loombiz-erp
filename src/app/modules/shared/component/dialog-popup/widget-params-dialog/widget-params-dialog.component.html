@@ -1,0 +1,35 @@
+<div class="p-1">
+    <span mat-dialog-title class="text-bold text-2xl">Set Parameters</span>
+    <form [formGroup]="form" class="p-4">
+        <div class="flex flex-col gap-4">
+            @for (param of parameters; track param.code) {
+                <mat-form-field class="w-full fuse-mat-dense">
+                    <mat-label>{{param.title}}</mat-label>
+                    @switch (param.uiElemetType) {
+                        @case ('SELECT') {
+                            <mat-select [formControlName]="param.code">
+                                @for (option of param.options; track option.value) {
+                                    <mat-option [value]="option.key">{{option.value}}</mat-option>
+                                }
+                            </mat-select>
+                        }
+                        @case ('MULTI_SELECT') {
+                            <mat-select [formControlName]="param.code" multiple>
+                                @for (option of param.options; track option.value) {
+                                    <mat-option [value]="option.key">{{option.value}}</mat-option>
+                                }
+                            </mat-select>
+                        }
+                        @default {
+                            <input matInput [formControlName]="param.code">
+                        }
+                    }
+                </mat-form-field>
+            }
+        </div>
+    </form>
+    <div class="flex justify-end gap-2 mt-4">
+        <button mat-button (click)="onCancel()">Cancel</button>
+        <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+    </div>
+</div>

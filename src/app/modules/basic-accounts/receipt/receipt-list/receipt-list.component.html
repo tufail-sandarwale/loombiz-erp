@@ -1,0 +1,40 @@
+
+  
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto p-6">
+        
+      <div class="w-full flex justify-between items-center mb-2">
+        <mat-label class="table-title float-left">{{ 'receiptList-table-title' | transloco }}</mat-label>
+        <div class="table-header-action">
+
+            <mat-form-field class="fuse-mat-dense w-30">
+                <mat-select name="export">
+                    @for (ex of exportTypes; track ex) {
+                    <mat-option [value]="ex.key" (click)="export(ex.key)">
+                        <mat-icon class="mr-[5px]" [svgIcon]="ex.icon"></mat-icon>
+                        <span>{{ex.value}}</span>
+                    </mat-option>
+                    }
+                </mat-select>
+                <mat-icon matPrefix svgIcon="mat_solid:file_download"></mat-icon>
+            </mat-form-field>
+            <button mat-raised-button [color]="filterClicked?'basic':'primary'" (click)="filterClicked=!filterClicked">
+                <span class="flex items-center">
+                    <span class="material-symbols-outlined">filter_alt</span>
+                    <span>{{'lable.filter' | transloco}}</span>
+                </span>
+            </button>
+            <button mat-raised-button color="primary" (click)="changeColumns()"><mat-icon
+                    svgIcon="mat_solid:table_chart" *ngIf="tableLayoutResult"></mat-icon></button>
+            <button *ngIf="receiptPermissionService.canAdd" mat-raised-button color="primary" (click)="add()">{{'lable.add-new' | transloco}}</button>
+        </div>
+    </div>
+
+      <div class="h-98 rounded-2xl mt-2.5">
+        <app-server-side-table-view [tableData]="tableData" [tableColumns]="tableColumns" [tableCode]="tableCode"
+            class="w-full overflow-x-auto" style="display: block;" [actions]="actions"
+            (actionClickedEvent)="tableAction($event)" [shouldShowActions]="shouldShowActions"></app-server-side-table-view>
+    </div>
+    </div>
+    </div>
+      

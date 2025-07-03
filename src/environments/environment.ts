@@ -4,11 +4,11 @@
 
 export const environment = {
   production: false,
-  hostUrl: 'http://localhost:8080',
-  apiUMSHostUrl: 'http://localhost:8089',
+  hostUrl: 'http://localhost:8081',
+  apiUMSHostUrl: 'http://localhost:8081',
   apiRVHostUrl: 'https://dev-g3iofu6rg2q3ic5.api.raw-labs.com',
-  contactApiUrl : 'http://localhost:8089/public/contact',
-  contactsgetApiUrl : 'http://localhost:8089/public/contacts'
+  contactApiUrl : 'http://localhost:8081/public/contact',
+  contactsgetApiUrl : 'http://localhost:8081/public/contacts'
 };
 
 /*

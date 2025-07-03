@@ -1,0 +1,23 @@
+.credit-note-container {
+  padding: 1rem 0;
+
+  .balance-display {
+    margin-bottom: 1.5rem;
+    
+    h3 {
+      color: #333;
+      margin: 0;
+    }
+  }
+
+  .credit-note-form {
+    mat-form-field {
+      width: 100%;
+    }
+  }
+}
+
+mat-dialog-actions {
+  padding: 1rem;
+  gap: 0.5rem;
+}

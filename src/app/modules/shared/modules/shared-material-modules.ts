@@ -21,6 +21,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 // Import other modules as needed
 import {MatCardModule} from '@angular/material/card';
 import {MatRadioModule} from '@angular/material/radio';
+import { MatTabsModule } from '@angular/material/tabs';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import {MatListModule} from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
 export const SharedMaterialModules = [
     MatFormFieldModule,
     MatInputModule,
@@ -43,4 +48,9 @@ export const SharedMaterialModules = [
     MatTooltipModule,
     MatCardModule,
     MatRadioModule,
+    MatTabsModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatListModule,
+    MatMenuModule,
 ];

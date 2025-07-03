@@ -1,0 +1,47 @@
+<div class="flex flex-col flex-auto min-w-0">
+  <div class="flex-auto p-6">
+    <div class="flex justify-between w-full">
+      <mat-label class="table-title float-left">{{ 'lable-add-role' | transloco }}</mat-label>
+    </div>
+    <div class="h-400 min-h-400 max-h-400 rounded-2xl mt-2.5">
+      <div class="flex flex-wrap -mx-2">
+        <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+          <mat-form-field class="fuse-mat-dense w-full">
+            <mat-label>User Role Name</mat-label>
+            <input matInput placeholder="Enter role name" [(ngModel)]="roleName" required>
+          </mat-form-field>
+        </div>
+        <mat-divider></mat-divider>
+        <mat-accordion class="w-full ml-2" multi>
+          <mat-expansion-panel *ngFor="let group of groups">
+            <mat-expansion-panel-header>
+              <mat-panel-title>{{ group.groupName }}</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="table-container">
+              <table mat-table [dataSource]="group.types" class="mat-elevation-z8 w-full" color="primary">
+                <ng-container *ngFor="let column of group.displayedColumns" [matColumnDef]="column">
+                  <th class="bg-primary" mat-header-cell *matHeaderCellDef> {{ column | titlecase }} </th>
+                  <td mat-cell *matCellDef="let element">
+                    <ng-container *ngIf="column === 'type'; else permissionCell">
+                      {{ element[column] }}
+                    </ng-container>
+                    <ng-template #permissionCell>
+                      <mat-slide-toggle [(ngModel)]="element[column]" color="primary"></mat-slide-toggle>
+                    </ng-template>
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="group.displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: group.displayedColumns;"></tr>
+              </table>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+        <div class="flex gap-2 pl-2">
+          <button type="submit" mat-raised-button color="primary" (click)="onSubmit()">Save</button>
+          <button type="button" mat-raised-button color="basic" (click)="onCancel()">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,11 +1,22 @@
 @if (formElement && parentForm){
 <mat-form-field [formGroup]="parentForm" class="fuse-mat-dense w-full">
-    <mat-label>{{formElement.label}}</mat-label>
-    <input matInput [formControlName]="formElement.name"
-        [matAutocomplete]="autoFormField">
-    <mat-autocomplete autoActiveFirstOption #autoFormField="matAutocomplete" [displayWith]="displayFormElement" (optionSelected)="optionSelected($event)">
+    <mat-label *ngIf="formElement.label">{{formElement.label}}</mat-label>
+    <input *ngIf="showAllOptionsOnClick" matInput [formControlName]="formElement.name" [readonly]="disableAttr"
+        [placeholder]="formElement.placeholder" [matAutocomplete]="autoFormField" (click)="showAllList()">
+    <input *ngIf="!showAllOptionsOnClick" (keydown.enter)="onEnterKey($event)" matInput [formControlName]="formElement.name" [readonly]="disableAttr"
+           [placeholder]="formElement.placeholder" [matAutocomplete]="autoFormField" (click)="showAllList()">
+    <mat-autocomplete autoActiveFirstOption #autoFormField="matAutocomplete" [displayWith]="displayFormElement"
+        (optionSelected)="optionSelected($event)">
         <mat-option *ngFor="let item of filteredList | async" [value]="item.key">{{item.value}}</mat-option>
+        <mat-option *ngIf="showAddOption && formElement.addNewLable" (click)="addNewOption()">
+            <span class="flex text-blue-800 cursor-pointer"><mat-icon class="mat-18">add</mat-icon>
+                {{formElement.addNewLable}}</span>
+        </mat-option>
     </mat-autocomplete>
     <mat-icon matSuffix>arrow_drop_down</mat-icon>
+    <mat-error
+        *ngIf="parentForm.get(formElement.name).hasError('required') && parentForm.get(formElement.name).touched">
+        {{ formElement.label }} is required.
+    </mat-error>
 </mat-form-field>
 }

@@ -44,7 +44,8 @@ export interface FuseNavigationItem
     };
     children?: FuseNavigationItem[];
     meta?: any;
-    roleSecurity?: string;
+    // roleSecurity?: string;
+    // moduleSecurity?: string;
 }
 
 export type FuseVerticalNavigationAppearance =

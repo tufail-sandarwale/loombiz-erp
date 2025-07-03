@@ -1,0 +1,9 @@
+::ng-deep app-dyna-dashboard ngx-daterangepicker-material {
+    .md-drppicker {
+        left: 20px !important;
+        margin-top: 10px !important;
+    }
+    .clear{
+        display: inline-flex;
+    }
+}

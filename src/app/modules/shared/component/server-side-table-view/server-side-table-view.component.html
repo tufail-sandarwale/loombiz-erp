@@ -1,0 +1,67 @@
+<div class="inline-table w-full">
+    <table *ngIf="dataSource && columnKeys" class="fuse-mat-dense rounded-2x" mat-table [dataSource]="dataSource"
+        matSort [disabled]="!isTableSortable" (matSortChange)="sortData($event)" color="primary" cdkDropList
+        cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
+        <ng-container *ngFor="let colKey of columnKeys; let colIndex = index" [ngSwitch]="colKey">
+            <ng-container *ngSwitchCase="'id'" matColumnDef="id">
+                <th mat-sort-header cdkDrag mat-header-cell *matHeaderCellDef class="bg-primary" [disabled]="true">
+                    {{columnNames[colIndex]}}</th>
+                <td mat-cell *matCellDef="let element; let i = index;">
+                    {{(paginator?.pageIndex * paginator?.pageSize) + (i+1) }}
+                </td>
+                <td mat-footer-cell *matFooterCellDef [hidden]="!showTotal"> Total </td>
+            </ng-container>
+            <ng-container *ngSwitchCase="'actions'" matColumnDef="actions">
+                <th cdkDrag mat-header-cell *matHeaderCellDef class="bg-primary" [disabled]="true">
+                    Actions
+                </th>
+                <td mat-cell *matCellDef="let element" class="td-mat-column-actions">
+                    <ng-container *ngFor="let button of actions">
+                        <button mat-icon-button (click)="buttonAction(button.key, element)" [matTooltip]="button.value"
+                            [color]="button.color" [disabled]="!shouldShowActions(element)">
+                            <mat-icon [svgIcon]="button.icon"></mat-icon>
+                        </button>
+                    </ng-container>
+                </td>
+                <td mat-footer-cell *matFooterCellDef [hidden]="!showTotal"> - </td>
+            </ng-container>
+            <ng-container *ngSwitchDefault matColumnDef="{{colKey}}">
+                <th mat-sort-header cdkDrag mat-header-cell *matHeaderCellDef class="bg-primary"
+                    [disabled]="!checkIsSortable(colKey)"> {{columnNames[colIndex]}} </th>
+                <td mat-cell *matCellDef="let element">
+                    @if (getColumnType(colKey)=='date') {
+                    <span class="mat-column-{{colKey}}-text"> {{element[colKey] |
+                        date: 'dd-MM-yyyy'}}</span>
+                    } @else if (getColumnType(colKey)=='image' && element[colKey]) {
+                    <span class="mat-column-{{colKey}}-text ">
+                        <img src="data:image/png;base64,{{element[colKey]}}"
+                            class="w-[50px] h-[40px] object-cover rounded">
+                    </span>
+                    }
+                    @else {
+                    @if (isColumnLink(colKey)) {
+                    <span
+                        class="mat-column-{{colKey}}-text text-blue-600 visited:text-purple-600 cursor-pointer font-bold"
+                        (click)="linkAction(colKey, element)">
+                        {{element[colKey]}}</span>
+                    } @else {
+                        <span *ngIf="(element[colKey] | isNumber)">
+                            <span class="mat-column-{{colKey}}-text block w-full">{{element[colKey] | rvDisplayPrice}}</span>
+                        </span>
+                        <span *ngIf="!(element[colKey] | isNumber)">
+                            <span class="mat-column-{{colKey}}-text">{{element[colKey]}}</span>
+                        </span>
+                    }
+                    }
+                </td>
+                <td mat-footer-cell *matFooterCellDef [hidden]="!showTotal"> {{ calculateFooterValue(colKey) | rvDisplayPrice}} </td>
+            </ng-container>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnKeys"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnKeys;"></tr>
+        <tr mat-footer-row *matFooterRowDef="columnKeys" [hidden]="!showTotal"></tr>
+    </table>
+    <mat-paginator #paginator [pageSize]="pageSize" [length]="totalElements" [hidePageSize]="false"
+        [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons aria-label="Select page " (page)="onPaging($event)">
+    </mat-paginator>
+</div>

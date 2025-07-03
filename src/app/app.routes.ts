@@ -76,12 +76,15 @@ export const appRoutes: Route[] = [
             initialData: initialDataResolver
         },
         children: [
-            {path: 'employee', loadChildren: () => import('app/modules/employee/employee-routing.module')},
-            {path: 'products', loadChildren: () => import('app/modules/product/product-routing.module')},
-            {path: 'customer', loadChildren: () => import('app/modules/client-list/client-routing.module')},
-            {path: 'setting', loadChildren: () => import('app/modules/admin/admin-routing.module')},
-            {path: 'contact', loadChildren: () => import('app/modules/contact/contact-routing.module')},
-            {path: 'product-category', loadChildren: () => import('app/modules/product-category/product-category-routing.module')},
+            {path: 'masters', loadChildren: () => import('app/modules/masters/masters-routing.module')},
+            {path: 'settings', loadChildren: () => import('app/modules/settings/settings-routing.module')},
+            {path: 'reports', loadChildren: () => import('app/modules/reports/reports-routing.module')},
+            // {path: 'employee', loadChildren: () => import('app/modules/employee/employee-routing.module')},
+                // {path: 'products', loadChildren: () => import('app/modules/product/product-routing.module')},
+                // {path: 'customer', loadChildren: () => import('app/modules/client-list/client-routing.module')},
+                // {path: 'setting', loadChildren: () => import('app/modules/admin/admin-routing.module')},
+                // {path: 'contact', loadChildren: () => import('app/modules/contact/contact-routing.module')},
+                // {path: 'product-category', loadChildren: () => import('app/modules/product-category/product-category-routing.module')},
         ]
     }
 ];

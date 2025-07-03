@@ -1,0 +1,26 @@
+<mat-form-field class="fuse-mat-dense w-full">
+    <mat-label>{{formElement.label}}</mat-label>
+    <mat-chip-grid #chipGrid>
+        @for (tag of tags; track tag) {
+        <mat-chip-row (removed)="remove(tag)" [editable]="false">
+            {{tag}}
+            <button matChipRemove [attr.aria-label]="'remove ' + tag">
+                <mat-icon>cancel</mat-icon>
+            </button>
+        </mat-chip-row>
+        }
+        <input
+            [matChipInputFor]="chipGrid" 
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur" 
+            (matChipInputTokenEnd)="add($event)"
+            [matAutocomplete]="selectedOptAuto"
+            [formControl]="chipsInputCtrl"
+            #chipInput />
+    </mat-chip-grid>
+    <mat-autocomplete #selectedOptAuto="matAutocomplete" (optionSelected)="optionSelected($event)">
+        <mat-option *ngFor="let fruit of filteredOptions | async" [value]="fruit">
+            {{fruit}}
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>

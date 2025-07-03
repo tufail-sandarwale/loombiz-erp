@@ -1,0 +1,69 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto p-6">
+        <div class="flex justify-between w-full">
+            <mat-label class="table-title float-left">{{ 'lable-add-credit-note' | transloco }}</mat-label>
+        </div>
+        <div class="h-98 rounded-2xl mt-2.5">
+            <form [formGroup]="creditNoteForm" (ngSubmit)="onSubmit()" class="flex flex-wrap -mx-2" autocomplete="off">
+                <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                    <mat-form-field class="fuse-mat-dense w-full">
+                        <mat-label> Date</mat-label>
+                        <input matInput  formControlName="transactionDate"
+                        placeholder="Date" [matDatepicker]="picker">
+                       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+                </div>
+                                <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                    <mat-form-field class="fuse-mat-dense w-full">
+                                       
+                                        <mat-label >Select From Account</mat-label>
+                                        <mat-select  formControlName="fromAccount">
+                                            <mat-option *ngFor="let option of accountList" [value]="option.value">
+                                                {{ option.value }}
+                                            </mat-option>
+                                           
+                                          </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                    <mat-form-field class="fuse-mat-dense w-full">
+                                       
+                                        <mat-label >Select To Account</mat-label>
+                                        <mat-select formControlName="toAccount">
+                                            <mat-option *ngFor="let option of accountList" [value]="option.value">
+                                                {{ option.value }}
+                                            </mat-option>
+                                           
+                                          </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+                                    <mat-form-field class="fuse-mat-dense w-full">
+                                        <mat-label>Amount</mat-label>
+                                        <input matInput formControlName="ammount">
+                                    
+                                    </mat-form-field>
+                                </div>
+                                <div class="w-full sm:w-full md:w-full px-2">
+                                    <mat-form-field class="fuse-mat-dense w-full">
+                                        <mat-label>Description </mat-label>
+                                        <textarea matInput placeholder="Description" formControlName="description">
+                                        </textarea>
+                                    </mat-form-field>
+                                </div>
+                               
+                 <div class="w-full mt-5"></div>
+                <button type="submit" mat-raised-button color="primary">
+                    <mat-icon color="primary" svgIcon="save"></mat-icon>
+                    <span *ngIf="!editMode"> {{'button-save' | transloco}}</span>
+                    <span *ngIf="editMode"> {{'button-update' | transloco}}</span>
+                   </button>
+                <button type="button" mat-raised-button color="basic" (click)="cancel()" class="ml-2">
+                    <mat-icon svgIcon="cancel"></mat-icon>
+                    {{'button-cancel' | transloco}}
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

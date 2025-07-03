@@ -1,0 +1,179 @@
+<!-- <div class="flex flex-col w-full">
+    <span class="table-title font-medium w-full m-2">General Settings</span>
+    <div class="flex flex-auto w-full">
+      <div class="flex flex-col flex-auto w-30 p-4 md:p-4 space-y-4">
+        <div class="flex flex-wrap max-w-30">
+  
+        
+          <div class="m-1 p-1 shadow rounded-2xl bg-card w-[80px]" 
+               [ngClass]="{ 'bg-primary text-white': isExactRoute('/settings/general/roles') || isSubRoute('/settings/general/roles', ['/settings/general/roles/add', '/settings/general/roles/edit-role']) }">
+            <a class="flex flex-col cursor-pointer py-2" [routerLink]="['/settings/general/roles']">
+              <div class="flex items-center justify-center h-full">
+                <mat-icon class="icon-size-8" 
+                          [ngClass]="{ 'text-hint': !isExactRoute('/settings/general/roles') && !isSubRoute('/settings/general/roles', ['/settings/general/roles/add', '/settings/general/roles/edit-role']), 'text-white': isExactRoute('/settings/general/roles') || isSubRoute('/settings/general/roles', ['/settings/general/roles/add', '/settings/general/roles/edit-role']) }"
+                          [svgIcon]="'mat_solid:security'"></mat-icon>
+              </div>
+              <div class="flex flex-col flex-auto justify-center text-center text-sm font-medium">
+                <div class="truncate">User Roles</div>
+              </div>
+            </a>
+          </div>
+          
+              <div class="m-1 p-1 shadow rounded-2xl bg-card w-[80px]" 
+              [ngClass]="{ 'bg-primary text-white': isExactRoute('/settings/general/roles') || isSubRoute('/settings/general/roles', ['/settings/general/roles/add', '/settings/general/roles/edit-role']) }">
+            <a class="flex flex-col cursor-pointer py-2" [routerLink]="['/settings/general/roles']">
+              <div class="flex items-center justify-center h-full">
+                <mat-icon class="icon-size-8" 
+                          [ngClass]="{ 'text-hint': !isExactRoute('/settings/general/roles') && !isSubRoute('/settings/general/roles', ['/settings/general/roles/add', '/settings/general/roles/edit-role']), 'text-white': isExactRoute('/settings/general/roles') || isSubRoute('/settings/general/roles', ['/settings/general/roles/add', '/settings/general/roles/edit-role']) }"
+                          [svgIcon]="'mat_solid:security'"></mat-icon>
+              </div>
+              <div class="flex flex-col flex-auto justify-center text-center text-sm font-medium">
+                <div class="truncate">Contact Categories</div>
+              </div>
+            </a>
+          </div>
+  
+         
+          <div class="m-1 p-1 shadow rounded-2xl bg-card w-[80px]" 
+               [ngClass]="{ 'bg-primary text-white': isExactRoute('/settings/general/tax') || isSubRoute('/settings/general/tax', ['/settings/general/tax/add-tax', '/settings/general/tax/edit-tax']) }">
+            <a class="flex flex-col cursor-pointer py-2" [routerLink]="['/settings/general/tax']">
+              <div class="flex items-center justify-center h-full">
+                <mat-icon class="icon-size-8" 
+                          [ngClass]="{ 'text-hint': !isExactRoute('/settings/general/tax') && !isSubRoute('/settings/general/tax', ['/settings/general/tax/add-tax', '/settings/general/tax/edit-tax']), 'text-white': isExactRoute('/settings/general/tax') || isSubRoute('/settings/general/tax', ['/settings/general/tax/add-tax', '/settings/general/tax/edit-tax']) }"
+                          [svgIcon]="'heroicons_solid:chart-bar'"></mat-icon>
+              </div>
+              <div class="flex flex-col flex-auto justify-center text-center text-sm font-medium">
+                <div class="truncate">Tax</div>
+              </div>
+            </a>
+          </div>
+  
+          
+          <div class="m-1 p-1 shadow rounded-2xl bg-card w-[80px]" 
+               [ngClass]="{ 'bg-primary text-white': isExactRoute('/settings/general/tax-and-rules') || isSubRoute('/settings/general/tax-and-rules', ['/settings/general/tax-and-rules/add-tax-rule', '/settings/general/tax-and-rules/edit-tax-rule']) }">
+            <a class="flex flex-col cursor-pointer py-2" [routerLink]="['/settings/general/tax-and-rules']">
+              <div class="flex items-center justify-center h-full">
+                <mat-icon class="icon-size-8" 
+                          [ngClass]="{ 'text-hint': !isExactRoute('/settings/general/tax-and-rules') && !isSubRoute('/settings/general/tax-and-rules', ['/settings/general/tax-and-rules/add-tax-rule', '/settings/general/tax-and-rules/edit-tax-rule']), 'text-white': isExactRoute('/settings/general/tax-and-rules') || isSubRoute('/settings/general/tax-and-rules', ['/settings/general/tax-and-rules/add-tax-rule', '/settings/general/tax-and-rules/edit-tax-rule']) }"
+                          [svgIcon]="'mat_solid:add_to_photos'"></mat-icon>
+              </div>
+              <div class="flex flex-col flex-auto justify-center text-center text-sm font-medium">
+                <div class="truncate">Tax Rules</div>
+              </div>
+            </a>
+          </div>
+  
+        </div>
+      </div>
+      <router-outlet></router-outlet>
+    </div>
+  </div> -->
+  <!-- <mat-sidenav-container class="w-full">
+    <mat-sidenav opened mode="side">
+        <mat-nav-list>
+            <a mat-list-item [routerLink]="['/settings/general/roles']"
+               routerLinkActive="bg-primary active-link"
+               [routerLinkActiveOptions]="{ exact: false }">
+                <span class="flex">
+                    <mat-icon svgIcon="mat_solid:security"></mat-icon>
+                    <span class="ml-2">User Role</span>
+                </span>
+            </a>
+
+            <a mat-list-item [routerLink]="['/settings/general/customer-category']"
+               routerLinkActive="bg-primary active-link"
+               [routerLinkActiveOptions]="{ exact: false }">
+                <span class="flex">
+                    <mat-icon svgIcon="mat_solid:contact_phone"></mat-icon>
+                    <span class="ml-2">Customer Category</span>
+                </span>
+            </a>
+            <a mat-list-item [routerLink]="['/settings/general/supplier-category']"
+               routerLinkActive="bg-primary active-link"
+               [routerLinkActiveOptions]="{ exact: false }">
+                <span class="flex">
+                    <mat-icon svgIcon="heroicons_outline:swatch"></mat-icon>
+                    <span class="ml-2">Supplier Category</span>
+                </span>
+            </a>
+            <a mat-list-item [routerLink]="['/settings/general/transport-category']"
+               routerLinkActive="bg-primary active-link"
+               [routerLinkActiveOptions]="{ exact: false }">
+                <span class="flex">
+                    <mat-icon svgIcon="heroicons_outline:truck"></mat-icon>
+                    <span class="ml-2">Transport Category</span>
+                </span>
+            </a>
+            <a mat-list-item [routerLink]="['/settings/general/gstin-place-of-supply']"
+               routerLinkActive="bg-primary active-link"
+               [routerLinkActiveOptions]="{ exact: false }">
+                <span class="flex">
+                    <mat-icon svgIcon="heroicons_outline:map-pin"></mat-icon>
+                    <span class="ml-2">Place of Supply</span>
+                </span>
+            </a>
+            <a mat-list-item [routerLink]="['/settings/general/gstin-registration-type']"
+               routerLinkActive="bg-primary active-link"
+               [routerLinkActiveOptions]="{ exact: false }">
+                <span class="flex">
+                    <mat-icon svgIcon="heroicons_outline:pencil-square"></mat-icon>
+                    <span class="ml-2">Registration Type (GST)</span>
+                </span>
+            </a>
+            <a mat-list-item [routerLink]="['/settings/general/prefix']"
+               routerLinkActive="bg-primary active-link"
+               [routerLinkActiveOptions]="{ exact: false }">
+                <span class="flex">
+                    <mat-icon svgIcon="heroicons_outline:plus-circle"></mat-icon>
+                    <span class="ml-2">Prefix</span>
+                </span>
+            </a>
+            <a mat-list-item [routerLink]="['/settings/general/tax']"
+               routerLinkActive="bg-primary active-link"
+               [routerLinkActiveOptions]="{ exact: false }">
+                <span class="flex">
+                    <mat-icon svgIcon="heroicons_solid:chart-bar"></mat-icon>
+                    <span class="ml-2">Taxes</span>
+                </span>
+            </a>
+
+            <a mat-list-item [routerLink]="['/settings/general/tax-and-rules']"
+               routerLinkActive="bg-primary active-link"
+               [routerLinkActiveOptions]="{ exact: false }">
+                <span class="flex">
+                    <mat-icon svgIcon="mat_solid:add_to_photos"></mat-icon>
+                    <span class="ml-2">Tax Rule</span>
+                </span>
+            </a>
+            <a mat-list-item [routerLink]="['/settings/general/payment-terms']"
+            routerLinkActive="bg-primary active-link"
+            [routerLinkActiveOptions]="{ exact: false }">
+             <span class="flex">
+                 <mat-icon svgIcon="heroicons_solid:currency-rupee"></mat-icon>
+                 <span class="ml-2">Payment Terms</span>
+             </span>
+         </a>
+         <a mat-list-item [routerLink]="['/settings/general/additional-charges']"
+         routerLinkActive="bg-primary active-link"
+         [routerLinkActiveOptions]="{ exact: false }">
+          <span class="flex">
+              <mat-icon svgIcon="heroicons_solid:rectangle-stack"></mat-icon>
+              <span class="ml-2">Additional Charges</span>
+          </span>
+      </a>
+      <a mat-list-item [routerLink]="['/settings/general/report-format']"
+      routerLinkActive="bg-primary active-link"
+      [routerLinkActiveOptions]="{ exact: false }">
+       <span class="flex">
+           <mat-icon svgIcon="heroicons_solid:clipboard-document-list"></mat-icon>
+           <span class="ml-2">Report Format</span>
+       </span>
+   </a>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container> -->
+
+<router-outlet></router-outlet>

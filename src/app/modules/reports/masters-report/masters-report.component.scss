@@ -1,0 +1,24 @@
+::ng-deep app-masters-report {
+    .mat-mdc-tab {
+        min-height: 80px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    .mdc-tab--active {
+        @apply bg-primary;
+
+        .active-text {
+            color: white;
+        }
+    }
+
+    .mat-ripple mat-mdc-tab-ripple {
+        background-color: var(--bg-primary) !important;
+    }
+
+    .mat-mdc-tab-group .mat-mdc-tab-header .mat-mdc-tab-label-container {
+        margin: 0 8px;
+    }
+}

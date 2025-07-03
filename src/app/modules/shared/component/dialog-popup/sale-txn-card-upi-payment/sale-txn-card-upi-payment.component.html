@@ -1,0 +1,45 @@
+<h2 class="bg-primary text-white p-2 text-xl font-semibold popup-header">
+    <span *ngIf="paymentMode === 'card'">Card Details</span>
+    <span *ngIf="paymentMode === 'upi'">UPI Details</span>
+</h2>
+<div class="p-4 min-w-[400px]">
+    <form [formGroup]="paymentForm" (ngSubmit)="submitPayment()">
+        <div class="flex flex-col">
+            <!-- Payment Terms Selection -->
+            <mat-form-field appearance="fill" class="w-full fuse-mat-dense">
+                <mat-label>Payment Account</mat-label>
+                <mat-select formControlName="paymentAccount">
+                    <mat-option *ngFor="let term of paymentAccounts" [value]="term.key">
+                        {{ term.value }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="w-full fuse-mat-dense" readonly>
+                <mat-label *ngIf="paymentMode === 'card'">Card Payment Amount</mat-label>
+                <mat-label *ngIf="paymentMode === 'upi'">UPI Payment Amount</mat-label>
+                <input matInput formControlName="paymentAmount" type="text">
+            </mat-form-field>
+            <mat-form-field *ngIf="paymentMode === 'card'" appearance="fill" class="w-full fuse-mat-dense">
+                <mat-label>Customer Bank Account</mat-label>
+                <input matInput formControlName="bankAccount" type="text">
+            </mat-form-field>
+            <mat-form-field *ngIf="paymentMode === 'card'" appearance="fill" class="w-full fuse-mat-dense">
+                <mat-label>Card Holder Name</mat-label>
+                <input matInput formControlName="cardHolderName" type="text">
+            </mat-form-field>
+            <mat-form-field *ngIf="paymentMode === 'card'" appearance="fill" class="w-full fuse-mat-dense">
+                <mat-label>Card Transaction Number</mat-label>
+                <input matInput formControlName="cardTransactionNumber" type="text">
+            </mat-form-field>
+        </div>
+        <div class="flex justify-end gap-3 mt-8">
+            <button mat-button type="button" (click)="onCancel()" class="px-4 py-2 text-gray-700">
+                Cancel
+            </button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="!paymentForm.valid" class="px-4 py-2">
+                Proceed to Pay
+            </button>
+        </div>
+
+    </form>
+</div>

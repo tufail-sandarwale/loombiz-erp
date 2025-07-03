@@ -32,7 +32,7 @@ export const permissionsData = [
                 permissions: [
                     {
                         code: 'CREATE_EMPLOYEE',
-                        name: 'Create Employee',
+                        name: 'Create Employe',
                         checked: false,
                     },
                     {
@@ -133,5 +133,28 @@ export const permissionsData = [
 
             }
         ]
+    }, {
+        groupName: 'POS',
+        types: [
+            {
+                type: 'Sale',
+                permissions: [
+                    {
+                        code: 'POS_SALE_BILL_DISCOUNT_ADD',
+                        name: 'Bill Discount Add',
+                        checked: false,
+                    },
+                    {
+                        code: 'POS_SALE_BILL_DISCOUNT_VIEW',
+                        name: 'Bill Discount View',
+                        checked: false,
+                    },{
+                        code: 'POS_SALE_BUTTON_CASH_AND_PRINT',
+                        name: 'Button Cash And Print',
+                        checked: false,                        
+                    }
+                ]
+            }],
     }
+
 ]

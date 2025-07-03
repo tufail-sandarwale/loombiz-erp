@@ -1,0 +1,58 @@
+<div class="flex w-full flex-col p-4">
+    <div class="flex justify-between w-full">
+        <mat-label class="text-xl font-semibold leading-8 tracking-tight">Reports</mat-label>
+
+    </div>
+    <mat-divider class="mb-4"></mat-divider>
+    <mat-tab-group animationDuration="1000ms">
+        <mat-tab label="Favourite">
+            <ng-template mat-tab-label class="bg-primary">
+                <div class="flex flex-col items-center gap-2 text-lg p-4 active-text">
+                    <span class="material-symbols-outlined text-[40px] font-bold">{{getReportTypeIcon('fav')}}</span>
+                    <span>Favourite</span>
+                </div>
+
+            </ng-template>
+            <div class="flex flex-wrap gap-2 w-full">
+                @for(favReport of favReports; track favReport.code) {
+                    <span class="sm:w-[calc(50%-8px)] md:w-[calc(33.3%-8px)] lg:w-[calc(25%-8px)] flex items-center justify-between border border-solid border-primary p-1">
+                        <div class="flex items-center cursor-pointer" (click)="openReport(favReport)">
+                            <span class="material-symbols-outlined text-primary">
+                                {{ favReport.icon ? favReport.icon : 'bar_chart' }}
+                            </span>
+                            <span class="ml-2">{{ favReport.title }}</span>
+                        </div>
+                        <span *ngIf="!favReport.fav" class="material-symbols-outlined ml-4 cursor-pointer"
+                            (click)="setFav(favReport)">star</span>
+                        <span *ngIf="favReport.fav" class="material-icons ml-4 cursor-pointer text-primary"
+                            (click)="setFav(favReport)">star</span>
+                    </span>
+                }
+            </div>
+        </mat-tab>
+        <mat-tab *ngFor="let reportGroup of groupedReports | keyvalue" label="{{reportGroup.key}}">
+            <ng-template mat-tab-label>
+                <div class="flex flex-col items-center gap-3 text-lg p-4 active-text">
+                    <span
+                        class="material-symbols-outlined text-[40px] font-bold">{{getReportTypeIcon(reportGroup.key)}}</span>
+                    <span>{{reportGroup.key}}</span>
+                </div>
+            </ng-template>
+            <div class="flex gap-2 w-full">
+                @for(report of reportGroup.value; track report.code){
+                <span class="flex items-center justify-between border border-solid border-primary p-1 sm:w-[calc(50%-8px)] md:w-[calc(33.3%-8px)] lg:w-[calc(25%-8px)]">
+                    <div class="flex items-center cursor-pointer" (click)="openReport(report)">
+                        <span
+                            class="material-symbols-outlined text-primary">{{report.icon?report.icon:'bar_chart'}}</span>
+                        <span class="ml-2">{{report.title}}</span>
+                    </div>
+                    <span *ngIf="!report.fav" class="material-symbols-outlined cursor-pointer"
+                        (click)="setFav(report)">star</span>
+                    <span *ngIf="report.fav" class="material-icons cursor-pointer text-primary"
+                        (click)="setFav(report)">star</span>
+                </span>
+                }
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>

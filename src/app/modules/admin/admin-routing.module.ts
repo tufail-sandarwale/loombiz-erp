@@ -17,6 +17,14 @@ export default [
       {
         path: 'roles',
         loadChildren: () => import('app/modules/admin/admin-settings/roles/roles-routing.module')
+      },
+      {
+        path: 'udf-config',
+        loadChildren: () => import('app/modules/admin/admin-settings/udf-config/udf-config-routing.module')
+      },
+      {
+        path: 'tax-and-rules',
+        loadChildren: () => import('app/modules/settings/general/tax-and-rules/tax-and-rules-routing.module')
       }
     ]
   }
